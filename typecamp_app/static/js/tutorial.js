@@ -1,48 +1,56 @@
-tutorial_flag = 'start'
-$('.tutorial').on('click', function() {
+// Функция открытия вкладки туториал
+function tutorialOpener() {
+    let tutorial = $('.tutorial')
+    // Если функция открыта
+    if (tutorial.attr('value') === '0') {
 
-    if ($('.tutorial-block').hasClass('d-none')) {
+        tutorial.attr('value', '1') 
         $('.tutorial-block').removeClass('d-none')
-        if (!$('.start-block').hasClass('d-none')) {
-            tutorial_flag = 'start'
-            $('.start-block').addClass('d-none')
-
-        }
-        if (!$('.stats-block').hasClass('d-none')) {
-            tutorial_flag = 'stats'
-            $('.stats-block').addClass('d-none')
-        }
-        if (!$('.settings-custom-block').hasClass('d-none')) {
-            tutorial_flag = 'start'
-            $('.settings-custom-block').addClass('d-none')
-        }
+        setTimeout(function(){
+            $('.tutorial-block').css({'opacity':'100'})
+        })
         $(document).keydown(function(e) {
             if(!e.code.startsWith('F')) {
                 e.preventDefault()
                 let key = $(`div[value="${e.code.toLowerCase()}"]`)
                 key.addClass('active-key')
+                
+                $(document).keyup(function(){
+                    key.removeClass('active-key')
+                })
             }
         })
-        $(document).keyup(function(e){
-            if (!e.code.startsWith('F')) {
-                e.preventDefault()
-                let key = $(`div[value="${e.code.toLowerCase()}"]`)
-                key.removeClass('active-key')
-            }
-        })
+        // При нажатии в любом месте экрана туториал скрывается
+        setTimeout(function(){
+            $('body').on('click', function() {
+                tutorial.attr('value', '0') 
+                $('body').off() // Очистка слушателя ивента на body
+                $(document).off() // Очистка слушателя ивента на нажатие клавиш
+                $('.tutorial-block').css({'opacity':'0'})
+                setTimeout(function(){
+                    $('.tutorial-block').addClass('d-none')
+                },300)
+                
+            })
+        },100)
+        
     }
-    else {
-        if (tutorial_flag === 'start') {
-            $('.tutorial-block').addClass('d-none')
-            $('.start-block').removeClass('d-none')
-        }
-        else {
-            $('.tutorial-block').addClass('d-none')
-            $('.stats-block').removeClass('d-none')
-            
-        }
+    
+}
 
+function winScreenOpener(task) {
+    clearInterval(time_interval)
+    $(`.${task}-block`).css({'opacity':'0'})
+    setTimeout(function(){
+        $(`.${task}-block`).addClass('d-none')
+        $(`.stats-block`).removeClass('d-none')
+    }, 300)
+    $(`.${task}-block`).css({'opacity':'0'})
+    $(`.stats-block`).css({'opacity':'100'})
+    if (task === 'test') {
+        testEventListener()
     }
+    
+}
 
-})
 

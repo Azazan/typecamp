@@ -9,7 +9,7 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item">
-                          <a href="#" class="tutorial nav-link"><i class="bi bi-keyboard-fill"></i>tutorial</a>
+                          <a class="tutorial nav-link" onclick="tutorialOpener()" value="0"><i class="bi bi-keyboard-fill"></i>tutorial</a>
                       </li>
                       <li class="nav-item">
                           <select class="form-select lang-select" aria-label="select language">
@@ -41,12 +41,13 @@
     <p>you are given <span class="text-success">20</span> words to print, you can also choose the <span class="text-success">language</span>, <span class="text-success">punctuation</span> and <span class="text-success">numbers</span> in the text or you can choose ready-made <span class="text-success">presets</span></p>
     <p>Press Ctrl+Enter to start</p>
 </div>
-<div class="text-block d-none">
+<div class="invise-block"><input type="text" class="invisible-input " oninput="inputChecker()"></div>
+<div class="test-block">
+    
     <div>
 
-        <h1 id="text-place" class=" text-left">
-
-            <span class="next-letter" value="-1"></span>
+        <h1 class="text-left text-place">
+            
         </h1>
     </div>
     <div class="curr-score d-flex">
@@ -78,11 +79,11 @@
   
 
 {% block scripts %}
-
+<script src="{% static "js/tutorial.js" %}"></script>
 <script src="{% static "js/text_gen.js" %}"></script>
 <script src="{% static "js/intro_animation.js" %}"></script>
 <script src="{% static "js/index.js" %}"></script>
-
+<script src="{% static "js/test.js" %}"></script>
 {% endblock scripts%}
 
 
