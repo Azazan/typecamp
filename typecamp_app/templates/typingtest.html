@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% load static%}
+{% block header %}
+<a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>test</h3></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                          <a href="#" class="tutorial nav-link"><i class="bi bi-keyboard-fill"></i>tutorial</a>
+                      </li>
+                      <li class="nav-item">
+                          <select class="form-select lang-select" aria-label="select language">
+                              <option selected value="ru">russian</option>
+                              <option value="en">english</option>
+                              <option value="js">javascript</option>
+                              <option value="py">python</option>
+                          </select>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link settings" href="#"><button value="punct" class="settings-btn">punctuation</button></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link settings" href="#"><button value="nums" class="settings-btn">nums</button></a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link settings" href="#"><button value="presets" class="settings-btn">presets</button></a>
+                      </li>
+
+                  </ul>
+
+              </div>
+
+{% endblock header %}
+
+{% block content%}
+<div class="start-block" value="test">
+    <h1 id="welcome"></h1>
+    <p>you are given <span class="text-success">20</span> words to print, you can also choose the <span class="text-success">language</span>, <span class="text-success">punctuation</span> and <span class="text-success">numbers</span> in the text or you can choose ready-made <span class="text-success">presets</span></p>
+    <p>Press Ctrl+Enter to start</p>
+</div>
+<div class="text-block d-none">
+    <div>
+
+        <h1 id="text-place" class=" text-left">
+
+            <span class="next-letter" value="-1"></span>
+        </h1>
+    </div>
+    <div class="curr-score d-flex">
+        <p class="text-light">Mistakes: <span id="mistakes" class="text-success"></span></p>
+        <p class="text-light">Progress: <span id="progress" class="text-success"></span></p>
+        <p class="text-light">Correct: <span id="correct" class="text-success"></span></p>
+        <p class="text-light">Words: <span id="words" class="text-success"></span></p>
+        <p class="text-light">Time: <span id="curr-time" class="text-success"></span> sec</p>
+    </div>
+</div>
+<div class="stats-block d-none">
+    <h1 class="text-uppercase text-light">good job</h1>
+
+    <div class="curr-score d-flex">
+        <p class="text-light">Mistakes: <span id="total-mistakes" class="text-success">0</span></p>
+        <p class="text-light">Accuracy: <span id="accuracy" class="text-success">0</span></p>
+        <p class="text-light">WPM: <span id="wpm" class="text-success">0</span></p>
+        <p class="text-light">LPM: <span id="lpm" class="text-success">0</span></p>
+        <p class="text-light">Time: <span id="total-time" class="text-success">0</span> sec</p>
+    </div>
+    <p>Press Ctrl+Enter to restart</p>
+</div>
+</div>
+{% endblock content %}
+
+
+
+
+  
+
+{% block scripts %}
+
+<script src="{% static "js/text_gen.js" %}"></script>
+<script src="{% static "js/intro_animation.js" %}"></script>
+<script src="{% static "js/index.js" %}"></script>
+
+{% endblock scripts%}
+
+
+
+
+</body>
+</html>
