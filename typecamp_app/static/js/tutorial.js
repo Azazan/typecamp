@@ -22,9 +22,9 @@ function tutorialOpener() {
         })
         // При нажатии в любом месте экрана туториал скрывается
         setTimeout(function(){
-            $('body').on('click', function() {
+            $('.closable, .navbar').on('click', function() {
                 tutorial.attr('value', '0') 
-                $('body').off() // Очистка слушателя ивента на body
+                $('.closable, .navbar').off() // Очистка слушателя ивента на body
                 $('.tutorial-block').css({'opacity':'0'})
                 setTimeout(function(){
                     $('.tutorial-block').addClass('d-none')
@@ -34,6 +34,70 @@ function tutorialOpener() {
         },100)
         
     }
+    
+}
+
+function settingsOpener() {
+    
+    let settings = $('.settings')
+    // Если функция открыта
+    if (settings.attr('value') === '0') {
+        $(document).off()
+        
+        settings.attr('value', '1') 
+        $('.custom-block').removeClass('d-none')
+        setTimeout(function(){
+            $('.custom-block').css({'opacity':'100'})
+        })
+        $(document).keydown(function(e) {
+            $('.custom-input').focus()
+        })
+        // При нажатии в любом месте экрана туториал скрывается
+        setTimeout(function(){
+            $('.closable, .navbar').on('click', function() {
+                $(document).off()
+                customEventListener()
+                settings.attr('value', '0') 
+                $('.closable, .navbar').off() // Очистка слушателя ивента на body
+                $('.custom-block').css({'opacity':'0'})
+                setTimeout(function(){
+                    $('.custom-block').addClass('d-none')
+                },300)
+                
+            })
+        },100)
+        
+    }
+
+    else {
+        $(document).off()
+        customEventListener()
+        settings.attr('value', '0') 
+        $('.closable, .navbar').off() // Очистка слушателя ивента на body
+        $('.custom-block').css({'opacity':'0'})
+        setTimeout(function(){
+            $('.custom-block').addClass('d-none')
+        },300)
+    }
+    
+}
+
+function settingsChecker() {
+    let text = $('.custom-input').val()
+
+    if (text.length < 10) {
+        const alertToast = $('.toast')
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(alertToast)
+        toastBootstrap.show()
+        $('.settings').attr('value', '0')
+        settingsOpener()    
+    }
+    else {
+        $('.settings').attr('value', '1')
+        settingsOpener()
+    }
+    
+    return !(text.length < 10)
     
 }
 
@@ -49,6 +113,9 @@ function winScreenOpener(task) {
     $(`.stats-block`).css({'opacity':'100'})
     if (task === 'test') {
         testEventListener()
+    }
+    else if (task === 'custom') {
+        customEventListener()
     }
     
 }

@@ -1,12 +1,17 @@
 const WORDS_LEN = 20;
-var text = ''
 
 
-function textCreator(task) {
-    if (task === 'test') {
-        text = 'god bless i went to ships game'
-        return text
+
+function valSwapper(el) {
+    if (el.attr('value') === '1') {
+        el.attr('value', '0')
+        el.children().removeClass('btn-active')
+        return;
+
     }
+    el.attr('value', '1')
+    el.children().addClass('btn-active')
+
 }
 
 function cursorMoving(cnt) {
@@ -37,16 +42,17 @@ function cursorMoving(cnt) {
 
 }
 
-function inputChecker() {
+function inputChecker(task) {
+    
     let input = $('.invisible-input').val()
+    console.log(input)
+    console.log(text)
     if (input.length > text.length) {
         return;
     }
     let flag = cursorMoving(input.length)
     if (!flag) {
-        if (text[input.length] === ' ' || text[input.length+1] === ' ') {
-            test_words--
-        }
+        
         if ($(`.incorrect-letter[value=${input.length}]`).length) {
             
             $(`.letter[value=${input.length}]`).removeClass('incorrect-letter')
@@ -55,31 +61,31 @@ function inputChecker() {
             test_correct--
             $(`.letter[value=${input.length}]`).removeClass('text-light')
         }
-        test_progress--
+        
         
     }
     else if (text[input.length-1] === input[input.length - 1]) {
-        if (text[input.length] === ' ') {
-            test_words++
-        }
+        
         $(`.letter[value=${input.length-1}]`).addClass('text-light')
         test_correct++
-        test_progress++
+        
     }
     // Допущена ошибка
     else {
-        if (text[input.length] === ' ') {
-            test_words++
-        }
+        
         test_mistakes++
-        test_progress++
+        
         $(`.letter[value=${input.length-1}]`).addClass('incorrect-letter')
         
     }
     if (input === text) {
         totalStatsUpdate()
-        winScreenOpener('test')
+        winScreenOpener(task)
     }
+
+    test_progress = input.length
+    test_words = text.substring(0, input.length + 1).split(' ').length - 1
+    console.log(text.substring(0, input.length))
     statsUpdate()
 }
 

@@ -80,7 +80,7 @@ body, html {
     border-radius: 3px;
 }
 
-.incorrect-letter {
+.incorrect-letter, .incorrect-letter i {
     color: red!important;
 }
 
@@ -109,11 +109,11 @@ body, html {
 
 
 .text-place {
-    transition: .12s;
+    transition: .1s;
     top: 0;
     position: relative;
     line-height: 56px;
-    height: 56px;
+    height: 112px;
     margin-bottom: 0;
     text-align: left!important;
     display: flex;
@@ -228,11 +228,14 @@ body, html {
     font-size: 1.5vmin;
 }
 
-.letter, .space-style {
+.letter, .space-style, .shift-style {
     width: 25px!important;
     display: flex;
     justify-self: center;
     align-self: center;
+}
+.shift-style {
+    width: 100%;
 }
 
 .space-style i{
@@ -312,15 +315,35 @@ body, html {
 
 }
 
-.tutorial-block {
-    opacity: 0;
+.tutorial-block > .tutorial-main, .custom-block > .settings-custom-main {
     margin: auto;
     position: absolute;
     top: 50%; left: 50%;
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.1);
 	-webkit-transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
     transition: all .3s ease-in-out;
+    z-index: 45;
+}
+
+.tutorial-block, .custom-block {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    
+    transition: all .3s ease-in-out;
+}
+
+
+
+.closable {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 44;
 }
 
 .tutorial-block .key {
