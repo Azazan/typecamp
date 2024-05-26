@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8", name="viewport", content="width=device-width", initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+    
     <title>TYPECAMP</title>
     <link rel="stylesheet" href="{% static "css/style.css" %}">
     
@@ -19,7 +20,7 @@
             {% block header %} {% endblock header %}
             
         </nav>
-        <div class="d-flex justify-content-center align-items-center text-center h-100 flex-column">
+        <div class="d-flex justify-content-center align-items-center text-center h-100 flex-column main">
             {% block content %} {% endblock content %}
             
             <div class="tutorial-block d-none bg-dark">

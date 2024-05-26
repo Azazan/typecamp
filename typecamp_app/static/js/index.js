@@ -44,6 +44,9 @@ function inputChecker() {
     }
     let flag = cursorMoving(input.length)
     if (!flag) {
+        if (text[input.length] === ' ' || text[input.length+1] === ' ') {
+            test_words--
+        }
         if ($(`.incorrect-letter[value=${input.length}]`).length) {
             
             $(`.letter[value=${input.length}]`).removeClass('incorrect-letter')
@@ -52,25 +55,47 @@ function inputChecker() {
             test_correct--
             $(`.letter[value=${input.length}]`).removeClass('text-light')
         }
+        test_progress--
+        
     }
-    if (text[input.length-1] === input[input.length - 1]) {
+    else if (text[input.length-1] === input[input.length - 1]) {
+        if (text[input.length] === ' ') {
+            test_words++
+        }
         $(`.letter[value=${input.length-1}]`).addClass('text-light')
+        test_correct++
+        test_progress++
     }
     // Допущена ошибка
     else {
+        if (text[input.length] === ' ') {
+            test_words++
+        }
         test_mistakes++
+        test_progress++
         $(`.letter[value=${input.length-1}]`).addClass('incorrect-letter')
+        
     }
     if (input === text) {
-        
+        totalStatsUpdate()
         winScreenOpener('test')
     }
+    statsUpdate()
 }
 
+function totalStatsUpdate() {
+    $('#total-mistakes').html(test_mistakes)
+    $('#accuracy').html(Math.ceil((test_correct - test_mistakes) / test_correct * 100))
+    $('#wpm').html(Math.ceil(test_words / Math.ceil(test_time / 60)))
+    $('#lpm').html(Math.ceil(test_correct / Math.ceil(test_time / 60)))
+    $('#total-time').html(test_time)
+}
+
+
 function statsUpdate() {
-    $('#mistakes').html(0)
+    $('#mistakes').html(test_mistakes)
     $('#curr-time').html(test_time)
-    $('#correct').html(0)
-    $('#words').html(0)
-    $('#progress').html(0)
+    $('#correct').html(test_correct)
+    $('#words').html(test_words)
+    $('#progress').html(test_progress)
 }

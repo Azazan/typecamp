@@ -4,10 +4,10 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
 }
 
-window.onload = function(){
+function introAnimation(){
     let quote_in = 'Welcome to typecamp!'
     let quote = document.getElementById('welcome')
-    
+    console.log('asdf')
     let i = 0
     let flag = true
     let welcome_anim = setInterval(function () {

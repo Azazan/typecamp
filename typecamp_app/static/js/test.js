@@ -1,13 +1,17 @@
 var test_time = 0 // Время теста
 var time_interval;
+var timer;
 var test_mistakes = 0; // Количество ошибок в тесте
 var test_progress = 0; // Прогресс теста
 var test_correct = 0; // Количество правильных нажатий
+var test_words = 0; // Количество слов
 function testStarter() {
     test_mistakes = 0;
     test_progress = 0;
     test_correct = 0;
     test_time = 0;
+    test_words = 0;
+    $('.text-place').css({'top':'0px'})
     $('.start-block').addClass('d-none')
     $('.invisible-input').val('')
     let text = textCreator('test')
@@ -34,15 +38,17 @@ function testStarter() {
         html += '</div>'
     }
     $('.text-place').html(html)
-    setInterval(function(){
+    timer = setInterval(function(){
         test_time++
         statsUpdate()
     }, 1000)
 }
 
 function testEventListener(){
+    $('.main').on('click', function() {
+        $('.invisible-input').focus();
+    })
     $(document).keydown(function(e) {
-        
         $('.invisible-input').focus();
         if (e.ctrlKey && e.keyCode == 13) {
             testStarter()
@@ -55,5 +61,5 @@ function testEventListener(){
 window.onload = function(){
     
     testEventListener()
-
+    introAnimation()
 }

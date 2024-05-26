@@ -25,7 +25,6 @@ function tutorialOpener() {
             $('body').on('click', function() {
                 tutorial.attr('value', '0') 
                 $('body').off() // Очистка слушателя ивента на body
-                $(document).off() // Очистка слушателя ивента на нажатие клавиш
                 $('.tutorial-block').css({'opacity':'0'})
                 setTimeout(function(){
                     $('.tutorial-block').addClass('d-none')
@@ -39,7 +38,8 @@ function tutorialOpener() {
 }
 
 function winScreenOpener(task) {
-    clearInterval(time_interval)
+    clearTimeout(time_interval)
+    clearInterval(timer)
     $(`.${task}-block`).css({'opacity':'0'})
     setTimeout(function(){
         $(`.${task}-block`).addClass('d-none')
