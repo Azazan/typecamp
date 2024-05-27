@@ -28,9 +28,22 @@
 {% endblock header %}
 
 {% block content %}
-<div class="profile-block">
+<div class="profile-block ">
     <h1 class="m-2 text-light">{{ profile.user.username }}</h1>
-    <p class="text-left">{{profile.quote}}</p>
+    <h5 class="text-left">"{{profile.quote}}"</h5>
+    <h2 class="text-light">Typing statistic</h2>
+    <div class="profile-stats">
+        <div><h4>accuracy</h4><span class="text-success profile-stats-num">{{ total_accuracy }}%</span></div>
+        <div><h4>WPM</h4><span class="text-success profile-stats-num">{{ total_wpm }}</span></div>
+        <div><h4>LPM</h4><span class="text-success profile-stats-num">{{ total_lpm }}</span></div>
+    </div>
+    <h2 class="text-light">Total statistic</h2>
+    <div class="profile-stats">
+        <div><h4>Tests opened</h4><span class="text-success profile-stats-num">{{ total_tests_cnt }}</span></div>
+        <div><h4>Total time in test</h4><span class="text-success profile-stats-num">{{ total_time }}</span></div>
+        <div><h4>Total mistakes</h4><span class="text-success profile-stats-num">{{ total_mistakes }}</span></div>
+    </div>
+
 </div>
 
 {% endblock content %}

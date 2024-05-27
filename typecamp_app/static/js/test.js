@@ -5,12 +5,15 @@ var test_mistakes = 0; // Количество ошибок в тесте
 var test_progress = 0; // Прогресс теста
 var test_correct = 0; // Количество правильных нажатий
 var test_words = 0; // Количество слов
+var test_keys;
+var test_results;
+var keys_var = {'q':'keyq', 'w':'keyw', 'e':'keye', 'r':'keyr', 't':'keyt', 'y':'keyy', 'u':'keyu', 'i':'keyi', 'o':'keyo', 'p':'keyp', 'a':'keya', 's':'keys', 'd':'keyd', 'f':'keyf', 'g':'keyg', 'h':'keyh', 'j':'keyj', 'k':'keyk', 'l':'keyl', 'z':'keyz', 'x':'keyx', 'c':'keyc', 'v':'keyv', 'b':'keyb', 'n':'keyn', 'm':'keym', 'й':'keyq', 'ц':'keyw', 'у':'keye', 'к':'keyr', 'е':'keyt', 'н':'keyy', 'г':'keyu', 'ш':'keyi', 'щ':'keyo', 'з':'keyp', 'х':'bracketleft', 'ъ':'bracketright', 'ф':'keya', 'ы':'keys', 'в':'keyd', 'а':'keyf', 'п':'keyg', 'р':'keyh', 'о':'keyj', 'л':'keyk', 'д':'keyl', 'ж':'semicolon', 'э':'quote', 'я':'keyz', 'ч':'keyx', 'с':'keyc', 'м':'keyv', 'и':'keyb', 'т':'keyn', 'ь':'keym','б':'comma','ю':'period'}
 var text = '';
 function testStarter(task) {
     $('.main').on('click', function() {
         $('.invisible-input').focus();
     })
-    
+    test_keys = {'keyq':0, 'keyw':0, 'keye':0, 'keyr':0, 'keyt':0, 'keyy':0, 'keyu':0, 'keyi':0, 'keyo':0, 'keyp':0, 'bracketleft':0, 'bracketright':0, 'keya':0, 'keys':0, 'keyd':0, 'keyf':0, 'keyg':0, 'keyh':0, 'keyj':0, 'keyk':0, 'keyl':0, 'semicolon':0, 'quote':0, 'keyz':0, 'keyx':0, 'keyc':0, 'keyv':0, 'keyb':0, 'keyn':0, 'keym':0, 'comma':0, 'period':0, 'slash':0}
     test_mistakes = 0;
     test_progress = 0;
     test_correct = 0;

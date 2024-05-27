@@ -119,6 +119,17 @@ function winScreenOpener(task) {
     $(`.test-block`).css({'opacity':'0'})
     $(`.stats-block`).css({'opacity':'100'})
     if (task === 'test') {
+        console.log('sss')
+        fetch('/stats_update/', {
+            method: 'POST', // 'GET' тоже подойдёт, но 'POST' позволит использовать куки
+            headers: {'X-CSRFToken': csrf}, // CSRF-токен для Django, это важно помимо использования куки
+            body: JSON.stringify(test_keys) // Данные, которые отправляются в Django
+        }).then(response => console.log(response))
+        fetch('/total_stats_update/', {
+            method: 'POST', // 'GET' тоже подойдёт, но 'POST' позволит использовать куки
+            headers: {'X-CSRFToken': csrf}, // CSRF-токен для Django, это важно помимо использования куки
+            body: JSON.stringify(test_correct) // Данные, которые отправляются в Django
+        }).then(response => console.log(response))
         testEventListener()
     }
     else if (task === 'custom') {

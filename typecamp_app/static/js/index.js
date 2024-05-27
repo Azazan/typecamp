@@ -42,11 +42,6 @@ function cursorMoving(cnt) {
 
 }
 
-function clickCorrectChecker(name) {
-    if (text.length !== 0) {
-        //if (click)
-    }
-}
 
 function inputChecker(task) {
     
@@ -82,27 +77,27 @@ function inputChecker(task) {
     else {
         
         test_mistakes++
-        
         $(`.letter[value=${input.length-1}]`).addClass('incorrect-letter')
-        
+        test_keys[keys_var[$(`.letter[value=${input.length-1}]`).html().toLowerCase()]] += 1
     }
     if (input === text) {
         console.log('asdf')
         totalStatsUpdate()
+        test_correct = {'total_accuracy':Math.ceil((test_correct - test_mistakes) / test_correct * 100), 'total_wpm':Math.ceil(test_words / test_time * 60), 'total_lpm':Math.ceil(test_correct / test_time * 60), 'total_test_cnt':1,'total_time':test_time, 'total_mistakes':test_mistakes}
         winScreenOpener(task)
     }
 
     test_progress = input.length
     test_words = text.substring(0, input.length + 1).split(' ').length - 1
-    console.log(text.substring(0, input.length))
+    
     statsUpdate()
 }
 
 function totalStatsUpdate() {
     $('#total-mistakes').html(test_mistakes)
     $('#accuracy').html(Math.ceil((test_correct - test_mistakes) / test_correct * 100))
-    $('#wpm').html(Math.ceil(test_words / Math.ceil(test_time / 60)))
-    $('#lpm').html(Math.ceil(test_correct / Math.ceil(test_time / 60)))
+    $('#wpm').html(Math.ceil(test_words / test_time * 60))
+    $('#lpm').html(Math.ceil(test_correct / test_time * 60))
     $('#total-time').html(test_time)
 }
 

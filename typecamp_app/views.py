@@ -33,6 +33,39 @@ def dict_load(request):
     received_data = open(str(pathlib.Path(__file__).resolve().parent.parent) + '/typecamp_app/static/data/' + received_data, 'r', encoding="utf-8").read()
     return JsonResponse({'recieved': json.loads(received_data) }) # Отсылаем обратно
 
+def stats_update(request):
+    recieved_data = json.loads(request.body)
+    
+    if (request.user.is_authenticated):
+        user = request.user
+        profile_keys = Profile.objects.get(user=user)
+        total_keys = profile_keys.keys
+        for key, val in total_keys.items():
+            total_keys[key] += recieved_data[key]
+        profile_keys.save()
+        
+
+    else:
+        print('no')
+    return JsonResponse({'recieved': 'good' })
+
+def total_stats_update(request):
+    recieved_data = json.loads(request.body)
+    
+    if (request.user.is_authenticated):
+        user = request.user
+        profile_keys = Profile.objects.get(user=user)
+        total_keys = profile_keys.total_stat
+        for key, val in total_keys.items():
+            total_keys[key] += recieved_data[key]
+        profile_keys.save()
+        
+        print(Profile.objects.get(user=user).total_stat)
+
+    else:
+        print('no')
+    return JsonResponse({'recieved': 'good' })
+
 
 
 def user_login(request):
@@ -67,6 +100,7 @@ def register(request):
 
             new_user.save()
             Profile.objects.create(user=new_user)
+            login(request, new_user)
             return render(request, 'index.html', {'user': new_user})
 
     else:
@@ -78,6 +112,18 @@ def user_detail(request, id):
     user = User.objects.get(id=id)
     
     profile = Profile.objects.get(user=user)
+    stats = profile.total_stat
     
-    return render(request, 'profile.html', {'profile':profile})
+
+    return render(request, 'profile.html',
+    {'profile':profile, 
+    'total_accuracy':stats['total_accuracy'] / stats['total_test_cnt'],
+    'total_wpm':stats['total_wpm'] / stats['total_test_cnt'],
+    'total_lpm':stats['total_lpm'] / stats['total_test_cnt'],
+    'total_time':stats['total_time'],
+    'total_tests_cnt':stats['total_test_cnt'],
+    'total_mistakes':stats['total_mistakes']
+    
+    
+    })
 # Create your views here.
