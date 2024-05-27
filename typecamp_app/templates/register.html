@@ -30,6 +30,7 @@
 {% block content %}
 <div class="start-block">
     <h1 class="text-light">Register</h1>
+    <p>Have an account? <a href="{% url 'login' %}">Login</a></p>
     <form action="." method="post">
         {{ form.as_p }}
         {% csrf_token %}

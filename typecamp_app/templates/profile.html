@@ -28,14 +28,9 @@
 {% endblock header %}
 
 {% block content %}
-<div class="start-block">
-    <h1 class="text-light">Login</h1>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
-    <form action="." method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button class="btn btn-success">login</button>
-    </form>
+<div class="profile-block">
+    <h1 class="m-2 text-light">{{ profile.user.username }}</h1>
+    <p class="text-left">{{profile.quote}}</p>
 </div>
 
 {% endblock content %}

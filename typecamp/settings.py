@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'typecamp_app'
 ]
 
-STATIC_URL = 'static/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

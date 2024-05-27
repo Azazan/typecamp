@@ -5,7 +5,7 @@
 
 a {
     cursor: pointer;
-    
+    text-decoration: none!important; 
 }
 
 body, html {
@@ -285,6 +285,11 @@ body, html {
     color: #212529!important;
 }
 
+.errorlist li {
+    color: #F45050;
+    list-style-type: none;
+}
+
 .target-key {
     background-color: #F45050;
     color: #F0F0F0;
@@ -296,6 +301,12 @@ body, html {
     animation: 8000ms target_anim ease-in-out;
 }
 
+.btn-link {
+    background: transparent;
+    padding: 0;
+    border: none;
+    text-decoration: none!important; 
+}
 
 #welcome {
     height: 60px;
@@ -321,6 +332,7 @@ body, html {
     top: 50%; left: 50%;
     padding: 50px;
     background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
 	-webkit-transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);

@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 import json, pathlib
 from django.contrib.auth import authenticate, login
+from .models import Profile
 
 
 
@@ -65,13 +66,18 @@ def register(request):
             new_user.set_password(form.cleaned_data['password'])
 
             new_user.save()
-            return render(request, 'index.html', {'user':new_user})
+            Profile.objects.create(user=new_user)
+            return render(request, 'index.html', {'user': new_user})
 
     else:
         form = UserRegistrationForm()
 
-    return render(request, 'register.html', {'form':form})
+    return render(request, 'register.html', {'form': form})
 
-def user_detail(request):
-    pass
+def user_detail(request, id):
+    user = User.objects.get(id=id)
+    
+    profile = Profile.objects.get(user=user)
+    
+    return render(request, 'profile.html', {'profile':profile})
 # Create your views here.

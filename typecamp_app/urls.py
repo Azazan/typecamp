@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from .views import *
 from . import views
-from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     re_path(r'^$', index, name='home'),
@@ -12,6 +12,6 @@ urlpatterns = [
     re_path(r'^lessons', lessons, name='lessons'),
     re_path(r'^login/$', user_login, name='login'),
     re_path(r'^register/$', register, name='register'),
-    re_path(r'^logout/$', LogoutView.as_view(), name='logout'),
-    re_path(r'^profile/(?P<id>\d)/$', user_detail, name='user_detail')
+    re_path(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+    re_path(r'^profile/(?P<id>\d+)/$', user_detail, name='user_detail')
 ]

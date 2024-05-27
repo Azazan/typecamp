@@ -44,7 +44,7 @@ function cursorMoving(cnt) {
 
 function clickCorrectChecker(name) {
     if (text.length !== 0) {
-        if (click)
+        //if (click)
     }
 }
 

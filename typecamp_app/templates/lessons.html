@@ -1,234 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TYPECAMP</title>
-    <link rel="stylesheet" href="../style/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="../style/bootstrap.min.css">
-    <link rel="stylesheet" href="../style/bootstrap-icons-1.10.5/font/bootstrap-icons.min.css">
-</head>
-<body class="bg-dark">
-    <div class="container-fluid h-100">
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>lessons</h3></a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="tutorial nav-link" onclick="tutorialOpener()" value="0"><i class="bi bi-keyboard-fill"></i>tutorial</a>
+        </li>
+        <li class="nav-item">
+            <select class="form-select lang-select" aria-label="select language">
+                <option selected value="ru">russian</option>
+                <option value="en">english</option>
+                
+            </select>
+        </li>
+        
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark header">
-            <div class="container-fluid">
-                <a href="index.html" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>lessons</h3></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a href="#" class="tutorial nav-link"><i class="bi bi-keyboard-fill"></i>tutorial</a>
-                        </li>
-                        <li class="nav-item">
-                            <select class="form-select lang-select" aria-label="select language">
-                                <option selected value="ru">russian</option>
-                                <option value="en">english</option>
-                            </select>
-                        </li>
-                    </ul>
+    </ul>
+    <div class="user-block">
+        {% if user.is_authenticated %}
+            <a href="{% url 'user_detail' user.id %}" class="navbar-text m-2 text-light">{{ user.get_username }}</a>
+            /
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="navbar-text m-2 text-danger btn-link">logout</button>
+           </form>
+            
+            
+        {% else %}
+        
+            <a href="{% url 'login' %}" class="navbar-text m-2 text-light">login</a> /
+            <a href="{% url 'register' %}" class="navbar-text m-2 text-light">register</a>
 
-                </div>
-            </div>
-        </nav>
-        <div class="h-100 d-flex justify-content-center align-items-center text-center flex-column lessons-block">
-            <div class="start-block w-100" value="lessons">
-                <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item" value="one">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button  text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                LESSON #1
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionPanelsStayOpenExample">
-                            <div class="accordion-body">
-                                <h4 class="text-light">LESSON #1</h4>
-                                <p class="description">just alphabet: <span class="text-success">abcdef...</span></p>
-                                <div class="max-score">
-                                    <h6 class="text-light text-uppercase">max score</h6>
-                                    <p>lpm : <span class="lpm text-success"></span></p>
-                                    <p>accuracy : <span class="accuracy text-success"></span></p>
-                                </div>
-
-                                <button class="btn-start-lesson text-uppercase btn btn-success" value="one">start lesson</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item" value="two">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                LESSON #2
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionPanelsStayOpenExample">
-                            <div class="accordion-body">
-                                <h4 class="text-light">LESSON #2</h4>
-                                <p class="description">Letter combinations like: <span class="text-success">ab, ce, jg</span></p>
-                                <div class="max-score">
-                                    <h6 class="text-light text-uppercase">max score</h6>
-                                    <p>lpm : <span class="lpm text-success"></span></p>
-                                    <p>accuracy : <span class="accuracy text-success"></span></p>
-                                </div>
-                                <button class="btn-start-lesson text-uppercase btn btn-success" value="two" >start lesson</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item" value="three">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                LESSON #3
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionPanelsStayOpenExample">
-                            <div class="accordion-body">
-                                <h4 class="text-light">LESSON #3</h4>
-                                <p class="description">Short words like: <span class="text-success">cat, dog</span></p>
-                                <div class="max-score">
-                                    <h6 class="text-light text-uppercase">max score</h6>
-                                    <p>lpm : <span class="lpm text-success"></span></p>
-                                    <p>accuracy : <span class="accuracy text-success"></span></p>
-                                </div>
-                                <button class="btn-start-lesson text-uppercase btn btn-success" value="three">start lesson</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item" value="four">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
-                                LESSON #4
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionPanelsStayOpenExample">
-                            <div class="accordion-body">
-                                <h4 class="text-light">LESSON #4</h4>
-                                <p class="description">Long words like: <span class="text-success">Discombobulated</span></p>
-                                <div class="max-score">
-                                    <h6 class="text-light text-uppercase">max score</h6>
-                                    <p>lpm : <span class="lpm text-success"></span></p>
-                                    <p>accuracy : <span class="accuracy text-success"></span></p>
-                                </div>
-                                <button class="btn-start-lesson text-uppercase btn btn-success" value="four">start lesson</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-block d-none">
-                <div>
-
-                    <h1 id="text-place" class="text-left">
-                        <span class="next-letter" value="-1"></span>
-                    </h1>
-                </div>
-                <div class="curr-score d-flex">
-                    <p class="text-light">Mistakes: <span id="mistakes" class="text-success"></span></p>
-                    <p class="text-light">Progress: <span id="progress" class="text-success"></span></p>
-                    <p class="text-light">Correct: <span id="correct" class="text-success"></span></p>
-                    <p class="text-light">Words: <span id="words" class="text-success"></span></p>
-                    <p class="text-light">Time: <span id="curr-time" class="text-success"></span> sec</p>
-                </div>
-            </div>
-            <div class="stats-block d-none">
-                <h1 class="text-uppercase text-light">good job</h1>
-
-                <div class="curr-score d-flex">
-                    <p class="text-light">Mistakes: <span id="total-mistakes" class="text-success">0</span></p>
-                    <p class="text-light">Accuracy: <span id="accuracy" class="text-success">0</span></p>
-                    <p class="text-light">WPM: <span id="wpm" class="text-success">0</span></p>
-                    <p class="text-light">LPM: <span id="lpm" class="text-success">0</span></p>
-                    <p class="text-light">Time: <span id="total-time" class="text-success">0</span> sec</p>
-                </div>
-                <button class="btn btn-light text-uppercase return-btn">return</button>
-            </div>
-            <div class="tutorial-block d-none">
-                <h1 class="text-uppercase text-light">proper hand placement</h1>
-                <div class="keyboard text-left">
-                    <div class="d-flex">
-                        <div value="backquote" class="key tutorial-blue">`</div>
-                        <div value="digit1" class="key tutorial-blue">1</div>
-                        <div value="digit2" class="key tutorial-green">2</div>
-                        <div value="digit3" class="key tutorial-light-green">3</div>
-                        <div value="digit4" class="key tutorial-red">4</div>
-                        <div value="digit5" class="key tutorial-red">5</div>
-                        <div value="digit6" class="key tutorial-yellow">6</div>
-                        <div value="digit7" class="key tutorial-yellow">7</div>
-                        <div value="digit8" class="key tutorial-purple">8</div>
-                        <div value="digit9" class="key tutorial-pink">9</div>
-                        <div value="digit0" class="key tutorial-fiolet">0</div>
-                        <div value="minus" class="key tutorial-fiolet">-</div>
-                        <div value="equal" class="key tutorial-fiolet">=</div>
-                        <div value="backspace" class="key backspace tutorial-fiolet"><-</div>
-                    </div>
-                    <div class="d-flex">
-                        <div value="tab" class="key tab tutorial-blue">tab</div>
-                        <div value="keyq" class="key tutorial-blue">q <p>й</p></div>
-                        <div value="keyw" class="key tutorial-green">w <p>ц</p></div>
-                        <div value="keye" class="key tutorial-light-green">e <p>у</p></div>
-                        <div value="keyr" class="key tutorial-red">r <p>к</p></div>
-                        <div value="keyt" class="key tutorial-red">t <p>е</p></div>
-                        <div value="keyy" class="key tutorial-yellow">y <p>н</p></div>
-                        <div value="keyu" class="key tutorial-yellow">u <p>г</p></div>
-                        <div value="keyi" class="key tutorial-purple">i <p>ш</p></div>
-                        <div value="keyo" class="key tutorial-pink">o <p>щ</p></div>
-                        <div value="keyp" class="key tutorial-fiolet">p <p>з</p></div>
-                        <div value="bracketleft" class="key tutorial-fiolet">[ <p>х</p></div>
-                        <div value="bracketright" class="key tutorial-fiolet">] <p>ъ</p></div>
-                        <div value="backslash" class="key tab tutorial-fiolet">\</div>
-                    </div>
-                    <div class="d-flex">
-                        <div value="capslock" class="key backspace tutorial-blue">caps</div>
-                        <div value="keya" class="key tutorial-blue">a <p>ф</p></div>
-                        <div value="keys" class="key tutorial-green">s <p>ы</p></div>
-                        <div value="keyd" class="key tutorial-light-green">d <p>в</p></div>
-                        <div value="keyf" class="key tutorial-red">f <p>а</p></div>
-                        <div value="keyg" class="key tutorial-red">g <p>п</p></div>
-                        <div value="keyh" class="key tutorial-yellow">h <p>р</p></div>
-                        <div value="keyj" class="key tutorial-yellow">j <p>о</p></div>
-                        <div value="keyk" class="key tutorial-purple">k <p>л</p></div>
-                        <div value="keyl" class="key tutorial-pink">l <p>д</p></div>
-                        <div value="semicolon" class="key tutorial-fiolet">; <p>ж</p></div>
-                        <div value="quote" class="key tutorial-fiolet">' <p>э</p></div>
-                        <div value="enter" class="key enter tutorial-fiolet">enter</div>
-                    </div>
-                    <div class="d-flex">
-                        <div value="shiftleft" class="key shift tutorial-blue">shift</div>
-                        <div value="keyz" class="key tutorial-blue">z <p>я</p></div>
-                        <div value="keyx" class="key tutorial-green">x <p>ч</p></div>
-                        <div value="keyc" class="key tutorial-light-green">c <p>с</p></div>
-                        <div value="keyv" class="key tutorial-red">v <p>м</p></div>
-                        <div value="keyb" class="key tutorial-red">b <p>и</p></div>
-                        <div value="keyn" class="key tutorial-yellow">n <p>т</p></div>
-                        <div value="keym" class="key tutorial-yellow">m <p>ь</p></div>
-                        <div value="comma" class="key tutorial-purple">, <p>б</p></div>
-                        <div value="period" class="key tutorial-pink">. <p>ю</p></div>
-                        <div value="slash" class="key tutorial-fiolet">/</div>
-                        <div value="shiftright" class="key shift tutorial-fiolet">shift</div>
-                    </div>
-                    <div class="d-flex">
-                        <div value="controlleft" class="key ctrl tutorial-blue">ctrl</div>
-                        <div value="" class="key ctrl tutorial-blue">win</div>
-                        <div value="altleft" class="key ctrl tutorial-blue">alt</div>
-                        <div value="space" class="key space active-key bg-light">space</div>
-                        <div value="altright" class="key ctrl tutorial-fiolet">alt</div>
-                        <div value="option" class="key ctrl tutorial-fiolet">option</div>
-                        <div value="" class="key ctrl tutorial-fiolet">fn</div>
-                        <div value="controlright" class="key ctrl tutorial-fiolet">ctrl</div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+            
+        {% endif %}
+        
     </div>
 
-    <script src="../js/text_generating.js"></script>
-    <script src="../js/lessons.js"></script>
-    <script src="../js/index.js"></script>
-    <script src="../js/tutorial.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-</body>
-</html>
+</div>
+            
+{% endblock header %}
+{% block content %}
+        <div class="start-block w-100" value="lessons">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button  text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                      LESSON #1
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionPanelsStayOpenExample">
+                    <div class="accordion-body">
+                      <h4 class="text-light">LESSON #1</h4>
+                      <p class="description">just alphabet: <span class="text-success">abcdef...</span></p>
+                      <button class="btn-start-lesson text-uppercase btn btn-success" value="one">start lesson</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        LESSON #2
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionPanelsStayOpenExample">
+                    <div class="accordion-body">
+                        <h4 class="text-light">LESSON #2</h4>
+                        <p class="description">Letter combinations like: <span class="text-success">ab, ce, jg</span></p>
+                        <button class="btn-start-lesson text-uppercase btn btn-success" value="two" >start lesson</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        LESSON #3
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionPanelsStayOpenExample">
+                    <div class="accordion-body">
+                        <h4 class="text-light">LESSON #3</h4>
+                        <p class="description">Short words like: <span class="text-success">cat, dog</span></p>
+                        <button class="btn-start-lesson text-uppercase btn btn-success" value="three">start lesson</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                            LESSON #4
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionPanelsStayOpenExample">
+                        <div class="accordion-body">
+                            <h4 class="text-light">LESSON #4</h4>
+                            <p class="description">Long words like: <span class="text-success">Discombobulated</span></p>
+                            <button class="btn-start-lesson text-uppercase btn btn-success" value="four">start lesson</button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+        <div class="text-block d-none">
+            <div>
+    
+              <h1 id="text-place" class="text-left">
+                <span class="next-letter" value="-1"></span>
+              </h1>
+            </div>
+            <div class="curr-score d-flex">
+              <p class="text-light">Mistakes: <span id="mistakes" class="text-success"></span></p>
+              <p class="text-light">Progress: <span id="progress" class="text-success"></span></p>
+              <p class="text-light">Correct: <span id="correct" class="text-success"></span></p>
+              <p class="text-light">Words: <span id="words" class="text-success"></span></p>
+              <p class="text-light">Time: <span id="curr-time" class="text-success"></span> sec</p>
+            </div>
+        </div>
+        <div class="stats-block d-none">
+            <h1 class="text-uppercase text-light">good job</h1>
+
+            <div class="curr-score d-flex">
+                <p class="text-light">Mistakes: <span id="total-mistakes" class="text-success">0</span></p>
+                <p class="text-light">Accuracy: <span id="accuracy" class="text-success">0</span></p>
+                <p class="text-light">WPM: <span id="wpm" class="text-success">0</span></p>
+                <p class="text-light">LPM: <span id="lpm" class="text-success">0</span></p>
+                <p class="text-light">Time: <span id="total-time" class="text-success">0</span> sec</p>
+            </div>
+            <button class="btn btn-light text-uppercase return-btn">return</button>
+        </div>
+{% endblock content%}
+
+{% block scripts %}
+    <script src="{% static 'typeapp/js/text_generating.js' %}"></script>
+    <script src="{% static 'typeapp/js/lessons.js' %}"></script>
+    <script src="{% static 'typeapp/js/index.js' %}"></script>
+{% endblock scripts %}
