@@ -12,5 +12,6 @@ urlpatterns = [
     re_path(r'^lessons', lessons, name='lessons'),
     re_path(r'^login/$', user_login, name='login'),
     re_path(r'^register/$', register, name='register'),
-    re_path(r'^logout/$', LogoutView.as_view(), name='logout')
+    re_path(r'^logout/$', LogoutView.as_view(), name='logout'),
+    re_path(r'^profile/(?P<id>\d)/$', user_detail, name='user_detail')
 ]

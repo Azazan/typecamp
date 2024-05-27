@@ -72,5 +72,6 @@ def register(request):
 
     return render(request, 'register.html', {'form':form})
 
-
+def user_detail(request):
+    pass
 # Create your views here.

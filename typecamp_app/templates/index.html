@@ -24,7 +24,7 @@
         </ul>
         <div class="user-block">
             {% if user.is_authenticated %}
-                <a class="navbar-text m-0 text-light">{{ user.get_username }}</a>
+                <a href="{{ user.get_absolute_url }}" class="navbar-text m-0 text-light">{{ user.get_username }}</a>
                 
                 <a href="{% url 'logout' %}" class="navbar-text m-2 text-light">logout</a>
                 

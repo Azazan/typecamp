@@ -7,6 +7,10 @@ var test_correct = 0; // Количество правильных нажати�
 var test_words = 0; // Количество слов
 var text = '';
 function testStarter(task) {
+    $('.main').on('click', function() {
+        $('.invisible-input').focus();
+    })
+    
     test_mistakes = 0;
     test_progress = 0;
     test_correct = 0;
@@ -35,7 +39,7 @@ function testStarter(task) {
         for (let i = 0; i < text_mas.length; i++) {
             let shift_flag = false;
             if (text_mas[i].split('\n') > 1) {
-                html += '<div class="word w-100">'
+                html += '<div class="word">'
             }
             else {
 

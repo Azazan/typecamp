@@ -32,7 +32,7 @@
     </ul>
     <div class="user-block">
         {% if user.is_authenticated %}
-            <a class="navbar-text m-0 text-light">{{ user.get_username }}</a>
+            <a class="navbar-text m-0 text-light">{{ user.get_id }}</a>
             
             <a href="{% url 'logout' %}" class="navbar-text m-2 text-light">logout</a>
             
@@ -57,7 +57,7 @@
     <p>Press Ctrl+Enter to start</p>
     <button class="btn btn-success btn-start" onclick="testStarter('test')" value='test'>start</button>
 </div>
-<div class="invise-block"><input type="text" class="invisible-input " oninput="inputChecker('test')"></div>
+<div class="invise-block"><input type="text" class="invisible-input " oninput="inputChecker('test')" onkeydown="clickCorrectChecker(event.code)"></div>
 <div class="test-block">
     
     <div>

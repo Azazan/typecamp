@@ -42,6 +42,12 @@ function cursorMoving(cnt) {
 
 }
 
+function clickCorrectChecker(name) {
+    if (text.length !== 0) {
+        if (click)
+    }
+}
+
 function inputChecker(task) {
     
     let input = $('.invisible-input').val()

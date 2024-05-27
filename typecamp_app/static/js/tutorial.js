@@ -28,6 +28,7 @@ function tutorialOpener() {
                 $('.tutorial-block').css({'opacity':'0'})
                 setTimeout(function(){
                     $('.tutorial-block').addClass('d-none')
+
                 },300)
                 
             })
@@ -102,6 +103,8 @@ function settingsChecker() {
 }
 
 function winScreenOpener(task) {
+    $('.main').off()
+    text = ''
     $('.navbar').removeClass('d-none')
     setTimeout(function(){
         $('.navbar').css({'opacity':'100'})
