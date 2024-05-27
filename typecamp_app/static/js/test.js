@@ -15,7 +15,10 @@ function testStarter(task) {
     $('.text-place').css({'top':'0px'})
     $('.start-block').addClass('d-none')
     $('.invisible-input').val('')
-
+    $('.navbar').css({'opacity':'0'})
+    setTimeout(function(){
+        $('.navbar').addClass('d-none')
+    },300)
     textCreator(task).then((data) => {
         text = data;
         let text_mas = text.split(" ")
@@ -30,6 +33,7 @@ function testStarter(task) {
         }, 300)
         
         for (let i = 0; i < text_mas.length; i++) {
+            let shift_flag = false;
             if (text_mas[i].split('\n') > 1) {
                 html += '<div class="word w-100">'
             }
@@ -41,6 +45,7 @@ function testStarter(task) {
                 if (text_mas[i][j] === '\n') {
                     html += `<span class="letter shift-style w-100" value="${total_cnt}"><i class="bi bi-arrow-return-left"></i></span><br>`
                     total_cnt += 1;
+                    shift_flag = true;
                 }
                 else {
                     html += `<span class="letter" value="${total_cnt}">${text_mas[i][j]}</span>`
@@ -48,7 +53,7 @@ function testStarter(task) {
                 }
             }
             
-            if (text[total_cnt] === ' ') {
+            if (!shift_flag) {
                 html += `<span class="letter space-style" value="${total_cnt}"><i class="bi bi-x"></i></span>`
             }
             total_cnt += 1;
@@ -79,5 +84,13 @@ function testEventListener(){
     })
 }
 
-
+window.onload = function(){
+    if ($('.btn-start').attr('value') === 'test') {
+        introAnimation()
+        testEventListener()
+    }
+    else {
+        customEventListener()
+    }
+}
 

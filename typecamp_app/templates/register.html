@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block header %}
+<a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>camp</h3></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{% url 'custom'%}"><i class="bi bi-pen-fill"></i>custom</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'test' %}"><i class="bi bi-stopwatch"></i>test</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'game' %}"><i class="bi bi-joystick"></i>game</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'lessons' %}"><i class="bi bi-book-half"></i>lessons</a>
+            </li>
+            
+
+        </ul>
+        
+
+    </div>
+{% endblock header %}
+
+{% block content %}
+<div class="start-block">
+    <h1 class="text-light">Register</h1>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button class="btn btn-success">Register</button>
+    </form>
+</div>
+{% endblock content %}

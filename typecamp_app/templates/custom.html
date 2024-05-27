@@ -16,7 +16,19 @@
             </li>
           </ul>
           <div class="user-block">
-            <a class="navbar-text m-0 text-light">username</a>
+            {% if user.is_authenticated %}
+                <a class="navbar-text m-0 text-light">{{ user.get_username }}</a>
+                
+                <a href="{% url 'logout' %}" class="navbar-text m-2 text-light">logout</a>
+                
+            {% else %}
+            
+                <a href="{% url 'login' %}" class="navbar-text m-0 text-light">login</a>
+                <a href="{% url 'register' %}" class="navbar-text m-2 text-light">register</a>
+    
+                
+            {% endif %}
+            
         </div>
 
         </div>
@@ -36,13 +48,14 @@
           </div>
         </div>
       </div>
-      <div class="start-block w-100" value="custom">
+      <div class="start-block" value="custom">
         <h1 class="text-light">Welcome to custom mode</h1>
         <p>This is a print practice mode where you can set your own text and practice on it!</p>
         <p>Press Ctrl+Enter to start</p>
+        <button class="btn btn-success btn-start" value="custom" onclick="if (settingsChecker()){testStarter('custom')}">start</button>
       </div>
       <div class="invise-block"><input type="text" class="invisible-input " oninput="inputChecker('custom')"></div>
-      <div class="custom-block d-none bg-dark">
+      <div class="custom-settings-block d-none bg-dark">
         <div class="closable"></div>
         <div class="settings-custom-main" value="custom">
           <h4 class="text-light">Input your text for typing here:</h4>

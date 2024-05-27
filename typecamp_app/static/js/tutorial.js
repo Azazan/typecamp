@@ -45,9 +45,9 @@ function settingsOpener() {
         $(document).off()
         
         settings.attr('value', '1') 
-        $('.custom-block').removeClass('d-none')
+        $('.custom-settings-block').removeClass('d-none')
         setTimeout(function(){
-            $('.custom-block').css({'opacity':'100'})
+            $('.custom-settings-block').css({'opacity':'100'})
         })
         $(document).keydown(function(e) {
             $('.custom-input').focus()
@@ -59,9 +59,9 @@ function settingsOpener() {
                 customEventListener()
                 settings.attr('value', '0') 
                 $('.closable, .navbar').off() // Очистка слушателя ивента на body
-                $('.custom-block').css({'opacity':'0'})
+                $('.custom-settings-block').css({'opacity':'0'})
                 setTimeout(function(){
-                    $('.custom-block').addClass('d-none')
+                    $('.custom-settings-block').addClass('d-none')
                 },300)
                 
             })
@@ -74,9 +74,9 @@ function settingsOpener() {
         customEventListener()
         settings.attr('value', '0') 
         $('.closable, .navbar').off() // Очистка слушателя ивента на body
-        $('.custom-block').css({'opacity':'0'})
+        $('.custom-settings-block').css({'opacity':'0'})
         setTimeout(function(){
-            $('.custom-block').addClass('d-none')
+            $('.custom-settings-block').addClass('d-none')
         },300)
     }
     
@@ -102,14 +102,18 @@ function settingsChecker() {
 }
 
 function winScreenOpener(task) {
+    $('.navbar').removeClass('d-none')
+    setTimeout(function(){
+        $('.navbar').css({'opacity':'100'})
+    })
     clearTimeout(time_interval)
     clearInterval(timer)
-    $(`.${task}-block`).css({'opacity':'0'})
+    $(`.test-block`).css({'opacity':'0'})
     setTimeout(function(){
-        $(`.${task}-block`).addClass('d-none')
+        $(`.test-block`).addClass('d-none')
         $(`.stats-block`).removeClass('d-none')
     }, 300)
-    $(`.${task}-block`).css({'opacity':'0'})
+    $(`.test-block`).css({'opacity':'0'})
     $(`.stats-block`).css({'opacity':'100'})
     if (task === 'test') {
         testEventListener()

@@ -31,7 +31,19 @@
 
     </ul>
     <div class="user-block">
-        <a class="navbar-text m-0 text-light">username</a>
+        {% if user.is_authenticated %}
+            <a class="navbar-text m-0 text-light">{{ user.get_username }}</a>
+            
+            <a href="{% url 'logout' %}" class="navbar-text m-2 text-light">logout</a>
+            
+        {% else %}
+        
+            <a href="{% url 'login' %}" class="navbar-text m-0 text-light">login</a>
+            <a href="{% url 'register' %}" class="navbar-text m-2 text-light">register</a>
+
+            
+        {% endif %}
+        
     </div>
 
 </div>
@@ -43,7 +55,7 @@
     <h1 id="welcome"></h1>
     <p>you are given <span class="text-success">20</span> words to print, you can also choose the <span class="text-success">language</span>, <span class="text-success">punctuation</span> and <span class="text-success">numbers</span> in the text or you can choose ready-made <span class="text-success">presets</span></p>
     <p>Press Ctrl+Enter to start</p>
-    <button class="btn btn-success" onclick="testStarter('test')">start</button>
+    <button class="btn btn-success btn-start" onclick="testStarter('test')" value='test'>start</button>
 </div>
 <div class="invise-block"><input type="text" class="invisible-input " oninput="inputChecker('test')"></div>
 <div class="test-block">
@@ -85,10 +97,7 @@
 
 {% block scripts %}
 <script>
-    window.onload = function(){
-        introAnimation()
-        testEventListener()
-    }
+    
     var csrf = "{{ csrf_token }}";
 </script>
 <script src="{% static "js/intro_animation.js" %}"></script>

@@ -15,7 +15,7 @@ function valSwapper(el) {
 }
 
 function cursorMoving(cnt) {
-    if ($(`.letter[value=${cnt}]`)) {
+    if ($(`.letter[value=${cnt}]`).length) {
         let letter = $(`.letter[value=${cnt}]`)
         let letter_w = letter.position().left 
         let letter_h = letter.position().top
@@ -45,9 +45,11 @@ function cursorMoving(cnt) {
 function inputChecker(task) {
     
     let input = $('.invisible-input').val()
-    console.log(input)
+    
     console.log(text)
     if (input.length > text.length) {
+        console.log('full')
+        $('.invisible-input').val(input.substring(0, text.length))
         return;
     }
     let flag = cursorMoving(input.length)
@@ -79,6 +81,7 @@ function inputChecker(task) {
         
     }
     if (input === text) {
+        console.log('asdf')
         totalStatsUpdate()
         winScreenOpener(task)
     }
