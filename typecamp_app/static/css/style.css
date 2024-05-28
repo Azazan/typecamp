@@ -269,7 +269,7 @@ body, html {
 }
 
 .space {
-    width: 32.5vmin;
+    width: 32.7vmin;
 }
 .ctrl {
     width: 6.5vmin;
@@ -278,6 +278,21 @@ body, html {
 .key p {
     text-align: right;
 
+}
+
+.keyboard-profile {
+    margin-top: 100px;
+    flex-flow: column;
+    align-self: end!important;
+    width: 100%;
+}
+
+.keyboard-profile .d-flex {
+    justify-content: center;
+}
+
+.keyboard-profile .key, .keyboard-profile .space {
+    background: none;
 }
 
 .active-key {
@@ -473,10 +488,12 @@ body, html {
 .profile-block {
     width: 100%;
     min-height: 70%;
+    height: max-content;
     text-align: left;
     border: 2px solid #979998;
     border-radius: 10px;
     padding: 20px;
+    flex-flow: column;
 }
 
 .profile-stats {
@@ -551,10 +568,20 @@ body, html {
         margin: 0 auto;
     }
 
+    .profile-block {
+        margin-top: 100px;
+    }
+
     .profile-stats {
         grid-template-columns: 1fr;
     }
+
+    .key {
+        margin: 1px;
+    }
 }
+
+
 
 
 @media (max-height: 500px) {

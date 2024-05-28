@@ -83,6 +83,7 @@ function inputChecker(task) {
     if (input === text) {
         console.log('asdf')
         totalStatsUpdate()
+        console.log(test_keys)
         test_correct = {'total_accuracy':Math.ceil((test_correct - test_mistakes) / test_correct * 100), 'total_wpm':Math.ceil(test_words / test_time * 60), 'total_lpm':Math.ceil(test_correct / test_time * 60), 'total_test_cnt':1,'total_time':test_time, 'total_mistakes':test_mistakes}
         winScreenOpener(task)
     }

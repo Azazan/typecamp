@@ -113,16 +113,35 @@ def user_detail(request, id):
     
     profile = Profile.objects.get(user=user)
     stats = profile.total_stat
-    
+    keys = profile.keys
+    for key, val in keys.items():
+                if (stats['total_mistakes'] == 0):
+                    keys[key] = 0
+                else:
+                    keys[key] /= stats['total_mistakes']
+                    keys[key] *= 5
+    if stats['total_test_cnt'] == 0:
+        total_accuracy = 0
+        total_wpm = 0
+        total_lpm = 0
+        
+    else:
+        total_accuracy = stats['total_accuracy'] / stats['total_test_cnt']
+        total_wpm = stats['total_wpm'] / stats['total_test_cnt']
+        total_lpm = stats['total_lpm'] / stats['total_test_cnt']
+        
+
+
 
     return render(request, 'profile.html',
     {'profile':profile, 
-    'total_accuracy':stats['total_accuracy'] / stats['total_test_cnt'],
-    'total_wpm':stats['total_wpm'] / stats['total_test_cnt'],
-    'total_lpm':stats['total_lpm'] / stats['total_test_cnt'],
+    'total_accuracy':total_accuracy,
+    'total_wpm':total_wpm,
+    'total_lpm':total_lpm,
     'total_time':stats['total_time'],
     'total_tests_cnt':stats['total_test_cnt'],
-    'total_mistakes':stats['total_mistakes']
+    'total_mistakes':stats['total_mistakes'],
+    'keys':keys
     
     
     })

@@ -11,7 +11,7 @@ async function loadJson(dict_name) {
 }
 
 
-async function textCreator(task) {
+async function textCreator(task, lesson) {
     var text = '';
     if (task === 'test') {
         var punct = $('.punctuation-btn').attr('value')
@@ -35,9 +35,23 @@ async function textCreator(task) {
         return text;
     }
 
-    return await loadJson(dict_name).then((data) => {
-        let dict = data.recieved.words
+    else if (task === 'lessons') {
+        dict_name = `lessons_${$('.lang-select').val()}.json`
+    }
 
+    return await loadJson(dict_name).then((data) => {
+        
+
+        if (task === 'lessons') {
+            
+            let dict = data.recieved.words[lesson].task_words
+            for (let i = 0; i < dict[dict.length-1]; i++) {
+                let num = getRandomInt(0, dict.length - 1)
+                text+= `${dict[num]} `
+            }
+            return text.trimEnd()
+        }
+        let dict = data.recieved.words
         if (presets === '1') {
             let text_choice = getRandomInt(0, dict.length)
             console.log(dict[text_choice])

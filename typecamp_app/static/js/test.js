@@ -9,7 +9,13 @@ var test_keys;
 var test_results;
 var keys_var = {'q':'keyq', 'w':'keyw', 'e':'keye', 'r':'keyr', 't':'keyt', 'y':'keyy', 'u':'keyu', 'i':'keyi', 'o':'keyo', 'p':'keyp', 'a':'keya', 's':'keys', 'd':'keyd', 'f':'keyf', 'g':'keyg', 'h':'keyh', 'j':'keyj', 'k':'keyk', 'l':'keyl', 'z':'keyz', 'x':'keyx', 'c':'keyc', 'v':'keyv', 'b':'keyb', 'n':'keyn', 'm':'keym', 'й':'keyq', 'ц':'keyw', 'у':'keye', 'к':'keyr', 'е':'keyt', 'н':'keyy', 'г':'keyu', 'ш':'keyi', 'щ':'keyo', 'з':'keyp', 'х':'bracketleft', 'ъ':'bracketright', 'ф':'keya', 'ы':'keys', 'в':'keyd', 'а':'keyf', 'п':'keyg', 'р':'keyh', 'о':'keyj', 'л':'keyk', 'д':'keyl', 'ж':'semicolon', 'э':'quote', 'я':'keyz', 'ч':'keyx', 'с':'keyc', 'м':'keyv', 'и':'keyb', 'т':'keyn', 'ь':'keym','б':'comma','ю':'period'}
 var text = '';
-function testStarter(task) {
+function getRandomInt(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+}
+
+function testStarter(task, lesson) {
     $('.main').on('click', function() {
         $('.invisible-input').focus();
     })
@@ -26,7 +32,8 @@ function testStarter(task) {
     setTimeout(function(){
         $('.navbar').addClass('d-none')
     },300)
-    textCreator(task).then((data) => {
+    textCreator(task, lesson).then((data) => {
+        
         text = data;
         let text_mas = text.split(" ")
         console.log(text_mas)
@@ -92,11 +99,12 @@ function testEventListener(){
 }
 
 window.onload = function(){
-    if ($('.btn-start').attr('value') === 'test') {
+    if ($('.btn-start').attr('value') === 'test' ) {
         introAnimation()
         testEventListener()
     }
-    else {
+
+    else if ($('.btn-start').attr('value') === 'custom' ){
         customEventListener()
     }
 }

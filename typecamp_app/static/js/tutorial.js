@@ -121,16 +121,18 @@ function winScreenOpener(task) {
     if (task === 'test') {
         console.log('sss')
         fetch('/stats_update/', {
-            method: 'POST', // 'GET' тоже подойдёт, но 'POST' позволит использовать куки
+            method: 'POST', 
             headers: {'X-CSRFToken': csrf}, // CSRF-токен для Django, это важно помимо использования куки
             body: JSON.stringify(test_keys) // Данные, которые отправляются в Django
-        }).then(response => console.log(response))
-        fetch('/total_stats_update/', {
-            method: 'POST', // 'GET' тоже подойдёт, но 'POST' позволит использовать куки
-            headers: {'X-CSRFToken': csrf}, // CSRF-токен для Django, это важно помимо использования куки
-            body: JSON.stringify(test_correct) // Данные, которые отправляются в Django
-        }).then(response => console.log(response))
-        testEventListener()
+        }).then(
+
+            fetch('/total_stats_update/', {
+                method: 'POST',
+                headers: {'X-CSRFToken': csrf}, // CSRF-токен для Django, это важно помимо использования куки
+                body: JSON.stringify(test_correct) // Данные, которые отправляются в Django
+            }).then(response => testEventListener())
+        )
+        
     }
     else if (task === 'custom') {
         customEventListener()
