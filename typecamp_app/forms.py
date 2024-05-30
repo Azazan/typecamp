@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Profile
 
 
 class LoginForm(forms.Form):
@@ -25,6 +26,31 @@ class UserRegistrationForm(forms.Form,forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match')
         
         return cd['password2']
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+        help_texts = {
+            'username': None,
+            'email': None,
+        }   
+
+class StaffEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('is_staff',)
+        help_texts = {
+            'is_staff': '<span class="text-danger">Be careful!</span>',
+            
+        }   
+
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('quote',)
     
 
 

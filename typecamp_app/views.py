@@ -1,16 +1,23 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from .forms import *
 import json, pathlib
 from django.contrib.auth import authenticate, login
-from .models import Profile
+from .models import Profile, SiteStatistics, Post, History
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 
 def index(request):
-    return render(request, 'index.html')
+    leaderboard_wpm = Profile.objects.all().order_by('-wpm')[0:20]
+
+
+    return render(request, 'index.html', {
+        'leaderboard_wpm':leaderboard_wpm
+    })
 
 
 def test(request):
@@ -39,10 +46,10 @@ def stats_update(request):
     if (request.user.is_authenticated):
         user = request.user
         profile_keys = Profile.objects.get(user=user)
-        total_keys = profile_keys.keys
-        for key, val in total_keys.items():
-            total_keys[key] += recieved_data[key]
+        for key, val in profile_keys.keys.items():
+            profile_keys.keys[key] += recieved_data[key]
         profile_keys.save()
+        
         
 
     else:
@@ -55,12 +62,28 @@ def total_stats_update(request):
     if (request.user.is_authenticated):
         user = request.user
         profile_keys = Profile.objects.get(user=user)
-        total_keys = profile_keys.total_stat
-        for key, val in total_keys.items():
-            total_keys[key] += recieved_data[key]
+        for key, val in profile_keys.total_stat.items():
+            profile_keys.total_stat[key] += recieved_data[key]
+        profile_keys.wpm = max(recieved_data['total_wpm'], profile_keys.wpm)
         profile_keys.save()
+        total = SiteStatistics.objects.get(id=1)
+        total.total_mistakes += recieved_data['total_mistakes']
+        total.total_time += recieved_data['total_time']
+        total.total_tests += 1
+        total.total_words += recieved_data['total_words']
+        total.total_keys += recieved_data['total_keys']
+        total.save()
+
+        user.history_set.create(
+            test_num = user.history_set.count() + 1,
+            wpm=recieved_data['total_wpm'],
+            lpm=recieved_data['total_lpm'],
+            time=recieved_data['total_time'],
+            mistakes=recieved_data['total_mistakes'],
+            accuracy=recieved_data['total_accuracy']
+        )
         
-        print(Profile.objects.get(user=user).total_stat)
+        print(Profile.objects.get(user=user).wpm)
 
     else:
         print('no')
@@ -101,7 +124,7 @@ def register(request):
             new_user.save()
             Profile.objects.create(user=new_user)
             login(request, new_user)
-            return render(request, 'index.html', {'user': new_user})
+            return redirect('home')
 
     else:
         form = UserRegistrationForm()
@@ -119,7 +142,7 @@ def user_detail(request, id):
                     keys[key] = 0
                 else:
                     keys[key] /= stats['total_mistakes']
-                    keys[key] *= 5
+                    keys[key] *= 20
     if stats['total_test_cnt'] == 0:
         total_accuracy = 0
         total_wpm = 0
@@ -135,6 +158,7 @@ def user_detail(request, id):
 
     return render(request, 'profile.html',
     {'profile':profile, 
+    'history':user.history_set.all(),
     'total_accuracy':total_accuracy,
     'total_wpm':total_wpm,
     'total_lpm':total_lpm,
@@ -145,4 +169,84 @@ def user_detail(request, id):
     
     
     })
-# Create your views here.
+@login_required
+def edit_profile(request, id):
+    
+    if request.method == 'POST':
+        if request.user.is_superuser:
+            staff_form = StaffEditForm(instance=User.objects.get(id=id), data=request.POST)
+        user_form = UserEditForm(instance=User.objects.get(id = id), data=request.POST)
+        profile_form = ProfileEditForm(instance=User.objects.get(id = id).profile, data=request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = request.user
+            user_form.save()
+            profile_form.save()
+            if request.user.is_superuser and staff_form.is_valid():
+                print('asdfasdf')
+                staff_form.save(commit=True)
+            return redirect('user_detail', id = id)
+
+        else:
+            return render(request,
+                      'edit.html',
+                      {'user_form': user_form,
+                       'profile_form': profile_form,
+                       'id':int(id)
+                       })
+
+    else:
+        if (request.user.is_superuser):
+            
+            user_form = UserEditForm(instance=User.objects.get(id = id))
+            profile_form = ProfileEditForm(instance=User.objects.get(id = id).profile)
+            staff_form = StaffEditForm(instance=User.objects.get(id = id))
+            return render(request,
+                        'edit.html',
+                        {'user_form': user_form,
+                        'profile_form': profile_form,
+                        'staff_form': staff_form,
+                        'id':int(id)
+                        })
+        else:
+            user_form = UserEditForm(instance=User.objects.get(id = id))
+            profile_form = ProfileEditForm(instance=User.objects.get(id = id).profile)
+            return render(request,
+                        'edit.html',
+                        {'user_form': user_form,
+                        'profile_form': profile_form,
+                        'id':int(id)
+                        })
+
+def total_stats_detail(request):
+    total_stats = SiteStatistics.objects.get(id=1)
+
+    return render(request, 'total_stats.html', {
+        'total_stats':total_stats
+    })
+
+def blog_list(request):
+    object_list = Post.objects.filter(status='published')
+    paginator = Paginator(object_list, 3)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render(request,
+                  'blog_list.html',
+                  {'page': page,
+                   'posts': posts})
+
+
+def post_detail(request, year, month, day, post):
+
+    post = get_object_or_404(Post, slug=post,
+                                   status='published',
+                                   publish__year=year,
+                                   publish__month=month,
+                                   publish__day=day)
+    post.views += 1
+    post.save()
+    return render(request,'post_detail.html', {'post': post})

@@ -46,15 +46,46 @@
 
 {% block content %}
 <div class="profile-block d-flex">
-    <h1 class="m-2 text-light">{{ profile.user.username }}</h1>
-    <h5 class="text-left">"{{profile.quote}}"</h5>
-    <h2 class="text-light">Typing statistic</h2>
+    <div class="profile-main-info">
+        <div class='text-left'>
+            <div class="d-flex">
+                <h1 class="m-2 {% if profile.user.is_superuser %}text-danger{% else%}{% if profile.user.is_staff%}text-primary{% else %}text-light {% endif %}{% endif %}">{{ profile.user.username }}</h1>
+                {% if profile.user.is_superuser %}
+                <div class="profile-group border-1 border border-danger text-danger">
+                    superuser
+                </div>
+                {% else %}
+                    {% if profile.user.is_staff %}
+                    <div class="profile-group border-1 border border-primary text-primary ">
+                        admin
+                    </div>
+                    
+                    {% endif %}
+                {% endif %}
+            </div>
+            
+            <h5 class="text-left">
+                {% if profile.quote != None %}
+                "{{profile.quote}}"
+                {% else %}
+                -
+                {% endif %}
+            </h5>
+        </div>
+        <div class='text-right justify-content-end d-flex align-items-center '>
+            {% if profile.user.pk == user.pk or request.user.is_staff %}
+            <a class="btn btn-outline-danger" href="{% url 'edit_profile' id=profile.user.pk %}">edit profile</a>
+            {% endif %}
+        </div>
+
+    </div>
+    <h2 class="text-light m-3">Typing statistic</h2>
     <div class="profile-stats">
         <div><h4>accuracy</h4><span class="text-success profile-stats-num">{{ total_accuracy|floatformat:1 }}%</span></div>
         <div><h4>WPM</h4><span class="text-success profile-stats-num">{{ total_wpm|floatformat:0 }}</span></div>
         <div><h4>LPM</h4><span class="text-success profile-stats-num">{{ total_lpm|floatformat:0 }}</span></div>
     </div>
-    <h2 class="text-light">Total statistic</h2>
+    <h2 class="text-light m-3">Total statistic</h2>
     <div class="profile-stats">
         <div><h4>Tests opened</h4><span class="text-success profile-stats-num">{{ total_tests_cnt }}</span></div>
         <div><h4>Total time in test</h4><span class="text-success profile-stats-num">{{ total_time }}</span>sec</div>
@@ -133,6 +164,42 @@
             <div value="controlright" class="key ctrl tutorial-fiolet">ctrl</div>
 
         </div>
+        {% if user.pk == profile.user.pk%}
+        <h2 class="text-light m-3">Tests history</h2>
+        
+        <div class="user-history">
+            <table class="table table-dark  table-striped ">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">WPM</th>
+                    <th scope="col">LPM</th>
+                    <th scope="col">time</th>
+                    <th scope="col">mistakes</th>
+                    <th scope="col">accuracy</th>
+                    <th scope="col">date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for el in history%}
+                  <tr>
+                    <th scope="row">{{el.test_num}}</th>
+                    <td><span class="">{{el.wpm}}</span></td>
+                    <td><span class="">{{el.lpm}}</span></td>
+                    <td><span class="">{{el.time}}</span></td>
+                    <td><span class="">{{el.mistakes}}</span></td>
+                    <td><span class="">{{el.accuracy}}</span></td>
+                    <td><span class="">{{ el.test_date }}</span></td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+        </div>
+        
+
+        
+        {% endif %}
+
 </div>
 
 {% endblock content %}

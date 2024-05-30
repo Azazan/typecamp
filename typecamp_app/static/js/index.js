@@ -3,18 +3,38 @@ const WORDS_LEN = 20;
 
 
 function valSwapper(el) {
+    if (el.hasClass('disabled')) {
+        return
+    }
+    if (el.hasClass('presets-btn')) {
+        $('.nums-btn').children().removeClass('btn-active')
+        $('.punctuation-btn').children().removeClass('btn-active')
+        $('.nums-btn').attr('value', '0')
+        $('.punctuation-btn').attr('value', '0')
+
+    }
     if (el.attr('value') === '1') {
+        if (el.hasClass('presets-btn')) {
+            $('.nums-btn').removeClass('disabled')
+            $('.punctuation-btn').removeClass('disabled')
+        }
         el.attr('value', '0')
         el.children().removeClass('btn-active')
         return;
 
     }
+    if (el.hasClass('presets-btn')) {
+        $('.nums-btn').addClass('disabled')
+        $('.punctuation-btn').addClass('disabled')
+    }  
     el.attr('value', '1')
     el.children().addClass('btn-active')
 
 }
-
+var total_right_moving_flag = true;
+var total_left_moving_flag = false;
 function cursorMoving(cnt) {
+    console.log('vis')
     if ($(`.letter[value=${cnt}]`).length) {
         let letter = $(`.letter[value=${cnt}]`)
         let letter_w = letter.position().left 
@@ -28,13 +48,27 @@ function cursorMoving(cnt) {
         else {
             flag = false;
         }
-
+        let input = $('.invisible-input').val()
+        
         if (letter_h + 4 > $(`.cursor`).position().top) {
-            $('.text-place').css({'top':`${parseInt($('.text-place').css('top')) - 56}px`})
+            if (input === text.substring(0, input.length)) {
+                console.log('move to next')
+                $('.text-place').css({'top':`${parseInt($('.text-place').css('top')) - 56}px`})
+                total_right_moving_flag = true;
+                total_deleted += input.length
+                test_correct = total_deleted + 1
+                text = text.substring(input.length, text.length)
+                $('.invisible-input').val('')
+                console.log(text)
+                console.log(input)
+            }
+            else {
+                console.log('not move')
+                total_right_moving_flag = false;
+                return true
+            }
         }
-        else if (letter_h + 4 < $(`.cursor`).position().top) {
-            $('.text-place').css({'top':`${parseInt($('.text-place').css('top')) + 56}px`})
-        }
+        
         $('.cursor').css({'left':`${letter_w}px`, 'top':`${letter_h + 4}px`})
         return flag;
         
@@ -47,49 +81,56 @@ function inputChecker(task) {
     
     let input = $('.invisible-input').val()
     
-    console.log(text)
     if (input.length > text.length) {
         console.log('full')
         $('.invisible-input').val(input.substring(0, text.length))
         return;
     }
-    let flag = cursorMoving(input.length)
+    let flag = cursorMoving(input.length + total_deleted)
+    input = $('.invisible-input').val()
     if (!flag) {
         
-        if ($(`.incorrect-letter[value=${input.length}]`).length) {
+        if ($(`.incorrect-letter[value=${input.length + total_deleted}]`).length) {
             
-            $(`.letter[value=${input.length}]`).removeClass('incorrect-letter')
+            $(`.letter[value=${input.length + total_deleted}]`).removeClass('incorrect-letter')
         }
         else {
             test_correct--
-            $(`.letter[value=${input.length}]`).removeClass('text-light')
+            $(`.letter[value=${input.length + total_deleted}]`).removeClass('text-light')
         }
         
         
     }
-    else if (text[input.length-1] === input[input.length - 1]) {
+    else if (text[input.length-1] === input[input.length - 1] && total_right_moving_flag) {
         
-        $(`.letter[value=${input.length-1}]`).addClass('text-light')
+        $(`.letter[value=${input.length + total_deleted - 1}]`).addClass('text-light')
         test_correct++
         
     }
     // Допущена ошибка
     else {
+        if (total_right_moving_flag) {
+            test_mistakes++
+            $(`.letter[value=${input.length + total_deleted-1}]`).addClass('incorrect-letter')
+            test_keys[keys_var[$(`.letter[value=${input.length + total_deleted-1}]`).html().toLowerCase()]] += 1
+
+        }
+    }
+    if (!total_right_moving_flag) {
+        $('.invisible-input').val(input.substring(0, input.length - 1))
+        total_right_moving_flag = true
         
-        test_mistakes++
-        $(`.letter[value=${input.length-1}]`).addClass('incorrect-letter')
-        test_keys[keys_var[$(`.letter[value=${input.length-1}]`).html().toLowerCase()]] += 1
     }
     if (input === text) {
         console.log('asdf')
         totalStatsUpdate()
         console.log(test_keys)
-        test_correct = {'total_accuracy':Math.ceil((test_correct - test_mistakes) / test_correct * 100), 'total_wpm':Math.ceil(test_words / test_time * 60), 'total_lpm':Math.ceil(test_correct / test_time * 60), 'total_test_cnt':1,'total_time':test_time, 'total_mistakes':test_mistakes}
+        test_correct = {'total_accuracy':Math.ceil((test_correct - test_mistakes) / test_correct * 100), 'total_wpm':Math.ceil(test_words / test_time * 60), 'total_lpm':Math.ceil(test_correct / test_time * 60), 'total_test_cnt':1,'total_time':test_time, 'total_mistakes':test_mistakes, 'total_words':test_words, 'total_keys':test_correct}
         winScreenOpener(task)
     }
 
-    test_progress = input.length
-    test_words = text.substring(0, input.length + 1).split(' ').length - 1
+    test_progress = input.length + total_deleted
+    test_words = total_text.substring(0, input.length + total_deleted + 1).split(' ').length - 1
     
     statsUpdate()
 }

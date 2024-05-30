@@ -7,19 +7,35 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="{% url 'custom'%}"><i class="bi bi-pen-fill"></i>custom</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'test' %}"><i class="bi bi-stopwatch"></i>test</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'game' %}"><i class="bi bi-joystick"></i>game</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'lessons' %}"><i class="bi bi-book-half"></i>lessons</a>
-            </li>
             
+            <li class="nav-item dropdown">
+                <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  choose mode
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li class="dropdown-item ">
+                        <a class="nav-link" aria-current="page" href="{% url 'custom'%}"><i class="bi bi-pen-fill"></i>custom</a>
+                    </li>
+                    <li class="dropdown-item ">
+                        <a class="nav-link" href="{% url 'test' %}"><i class="bi bi-stopwatch"></i>test</a>
+                    </li>
+                    <li class="dropdown-item ">
+                        <a class="nav-link" href="{% url 'game' %}"><i class="bi bi-joystick"></i>game</a>
+                    </li>
+                    <li class="dropdown-item ">
+                        <a class="nav-link" href="{% url 'lessons' %}"><i class="bi bi-book-half"></i>lessons</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'blog_list' %}"><i class="bi bi-newspaper"></i>blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#leaderboard_wpm"><i class="bi bi-trophy-fill"></i>leaderboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'total_stats_detail' %}"><i class="bi bi-activity"></i>total stats</a>
+            </li>
 
         </ul>
         <div class="user-block">
@@ -49,6 +65,77 @@
     <h1 class="text-light">Welcome to <span class="text-success">type</span>camp</h1>
     <p>We know that in today's world, typing speed is an essential skill for anyone who works at a computer. But how do you develop it? Our training will help you increase your <span class="text-success">typing speed</span>, improve <span class="text-success">accuracy</span>, and make your work at the computer more <span class="text-success">productive</span>.</p>
 </div>
+<div class="modal fade" id="leaderboard_wpm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-md-down">
+      <div class="modal-content bg-dark">
+        
+        <div class="modal-body">
+            <div class="modal-header ">
+                <div>
+                    <h1 class="modal-title fs-5 text-light" id="leaderboard_wpm">Leaderboard</h1>
+                    <a class="btn btn-outline-light active" data-bs-toggle="modal" data-bs-target="#leaderboard_wpm" ><i class="bi bi-book-half m-2"></i>WPM</a>
+                    <a class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#leaderboard_game"><i class="bi bi-book-half m-2"></i>GAME</a>
+                </div>
+                
+                <button type="button" class="btn btn-close btn-close-white " data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+            <h1 class=" text-light m-4">leaderboard</h1>
+            <div class="border-1 border-light d-grid justify-content-center ">
+                {% for el in leaderboard_wpm %}
+                
+                <div class="leaderboard-user">
+                    <span class="text-light">#{{ forloop.counter }} </span>
+                    <a href="{% url 'user_detail' id=el.user.pk %}" class=" {% if el.user.is_superuser %}text-danger{% else%}{% if el.user.is_staff%}text-primary{% else %}text-light {% endif %}{% endif %}">{{ el.user.username }}</a>
+                    <span class="text-light">{{el.wpm}}</span>
+                </div>
+
+                {% endfor %}
+                
+            </div>
+            
+      
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="leaderboard_game" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-md-down">
+      <div class="modal-content bg-dark">
+        
+        <div class="modal-body">
+            <div class="modal-header ">
+                <div>
+                    <h1 class="modal-title fs-5 text-light" id="leaderboard_wpm">Leaderboard</h1>
+                    <a class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#leaderboard_wpm" ><i class="bi bi-book-half m-2"></i>WPM</a>
+                    <a class="btn btn-outline-light active" data-bs-toggle="modal" data-bs-target="#leaderboard_game"><i class="bi bi-book-half m-2"></i>GAME</a>
+                </div>
+                
+                <button type="button" class="btn btn-close btn-close-white " data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+            <h1 class=" text-light m-4">leaderboard</h1>
+            <div class="border-1 border-light d-grid justify-content-center ">
+                {% for el in leaderboard_wpm %}
+                
+                <div class="leaderboard-user">
+                    <span class="text-light">#{{ forloop.counter }} </span>
+                    <a href="{% url 'user_detail' id=el.user.pk %}" class="text-light">{{ el.user.username }}</a>
+                    <span class="text-light">{{el.wpm}}</span>
+                </div>
+
+                {% endfor %}
+                
+            </div>
+            
+      
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+
 {% endblock content %}
 
 {% block scripts%}

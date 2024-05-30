@@ -38,64 +38,22 @@ function tutorialOpener() {
     
 }
 
-function settingsOpener() {
-    
-    let settings = $('.settings')
-    // Если функция открыта
-    if (settings.attr('value') === '0') {
-        $(document).off()
-        
-        settings.attr('value', '1') 
-        $('.custom-settings-block').removeClass('d-none')
-        setTimeout(function(){
-            $('.custom-settings-block').css({'opacity':'100'})
-        })
-        $(document).keydown(function(e) {
-            $('.custom-input').focus()
-        })
-        // При нажатии в любом месте экрана туториал скрывается
-        setTimeout(function(){
-            $('.closable, .navbar').on('click', function() {
-                $(document).off()
-                customEventListener()
-                settings.attr('value', '0') 
-                $('.closable, .navbar').off() // Очистка слушателя ивента на body
-                $('.custom-settings-block').css({'opacity':'0'})
-                setTimeout(function(){
-                    $('.custom-settings-block').addClass('d-none')
-                },300)
-                
-            })
-        },100)
-        
-    }
 
-    else {
-        $(document).off()
-        customEventListener()
-        settings.attr('value', '0') 
-        $('.closable, .navbar').off() // Очистка слушателя ивента на body
-        $('.custom-settings-block').css({'opacity':'0'})
-        setTimeout(function(){
-            $('.custom-settings-block').addClass('d-none')
-        },300)
-    }
-    
-}
-
-function settingsChecker() {
+function settingsChecker(task) {
     let text = $('.custom-input').val()
 
     if (text.length < 10) {
         const alertToast = $('.toast')
         const toastBootstrap = bootstrap.Toast.getOrCreateInstance(alertToast)
         toastBootstrap.show()
-        $('.settings').attr('value', '0')
-        settingsOpener()    
+        if (task === 1) {
+            bootstrap.Modal.getOrCreateInstance("#settings").show()
+  
+        }
+        
     }
     else {
-        $('.settings').attr('value', '1')
-        settingsOpener()
+        bootstrap.Modal.getOrCreateInstance("#settings").hide()
     }
     
     return !(text.length < 10)

@@ -9,6 +9,8 @@ var test_keys;
 var test_results;
 var keys_var = {'q':'keyq', 'w':'keyw', 'e':'keye', 'r':'keyr', 't':'keyt', 'y':'keyy', 'u':'keyu', 'i':'keyi', 'o':'keyo', 'p':'keyp', 'a':'keya', 's':'keys', 'd':'keyd', 'f':'keyf', 'g':'keyg', 'h':'keyh', 'j':'keyj', 'k':'keyk', 'l':'keyl', 'z':'keyz', 'x':'keyx', 'c':'keyc', 'v':'keyv', 'b':'keyb', 'n':'keyn', 'm':'keym', 'й':'keyq', 'ц':'keyw', 'у':'keye', 'к':'keyr', 'е':'keyt', 'н':'keyy', 'г':'keyu', 'ш':'keyi', 'щ':'keyo', 'з':'keyp', 'х':'bracketleft', 'ъ':'bracketright', 'ф':'keya', 'ы':'keys', 'в':'keyd', 'а':'keyf', 'п':'keyg', 'р':'keyh', 'о':'keyj', 'л':'keyk', 'д':'keyl', 'ж':'semicolon', 'э':'quote', 'я':'keyz', 'ч':'keyx', 'с':'keyc', 'м':'keyv', 'и':'keyb', 'т':'keyn', 'ь':'keym','б':'comma','ю':'period'}
 var text = '';
+var total_deleted = 0;
+var total_text = '';
 function getRandomInt(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
@@ -16,6 +18,7 @@ function getRandomInt(min, max) {
 }
 
 function testStarter(task, lesson) {
+    
     $('.main').on('click', function() {
         $('.invisible-input').focus();
     })
@@ -24,7 +27,9 @@ function testStarter(task, lesson) {
     test_progress = 0;
     test_correct = 0;
     test_time = 0;
+    
     test_words = 0;
+    total_deleted = 0;
     $('.text-place').css({'top':'0px'})
     $('.start-block').addClass('d-none')
     $('.invisible-input').val('')
@@ -45,7 +50,7 @@ function testStarter(task, lesson) {
             $(`.test-block`).removeClass('d-none')
             $(`.test-block`).css({'opacity':'100'})
         }, 300)
-        
+        total_text = text;
         for (let i = 0; i < text_mas.length; i++) {
             let shift_flag = false;
             if (text_mas[i].split('\n') > 1) {

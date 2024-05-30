@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% block header %}
+    <a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>camp</h3></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'lessons' %}"><i class="bi bi-pen"></i>write a post</a>
+            </li>
+            {% endif %}
+
+        </ul>
+        <div class="user-block">
+            {% if user.is_authenticated %}
+                <a href="{% url 'user_detail' id=user.pk %}" class="navbar-text m-2 text-light">{{ user.get_username }}</a>
+                /
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="navbar-text m-2 text-danger btn-link">logout</button>
+               </form>
+                
+            {% else %}
+            
+                <a href="{% url 'login' %}" class="navbar-text m-2 text-light">login</a>/
+                <a href="{% url 'register' %}" class="navbar-text m-2 text-light">register</a>
+    
+                
+            {% endif %}
+            
+        </div>
+
+    </div>
+
+{% endblock header %}
+{%block content %}
+<div class="post_detail text-start">
+
+    
+    <div class="card bg-dark text-light border-1 border border-light ">
+        <div class="card-header">
+          {{ post.author }}
+        </div>
+        <div class="card-body text-left">
+          <h1 class="card-title">{{ post.title }}</h1>
+          <p class="card-text text-light">{{ post.body }}</p>
+          <div class="post-small-details">
+            <p>Views: {{post.views}}</p>
+            <p>{{post.publish}} </p>
+            
+          </div>
+        </div>
+    </div>
+    
+     
+      
+
+
+</div>
+
+
+
+
+{% endblock content %}
+
+{% block scripts%}
+{%endblock scripts%}

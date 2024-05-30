@@ -9,10 +9,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a href="#" class="tutorial nav-link" value="0" onclick="tutorialOpener()"><i class="bi bi-keyboard-fill"></i>tutorial</a>
+              <a href="#" class="tutorial nav-link" value="0" data-bs-toggle="modal" data-bs-target="#tutorial"><i class="bi bi-keyboard-fill"></i>tutorial</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link settings" href="#" value="0" onclick="settingsOpener()"><i class="bi bi-gear-fill"></i>settings</a>
+              <a class="nav-link settings" href="#" value="0" data-bs-toggle="modal" data-bs-target="#settings"><i class="bi bi-gear-fill"></i>settings</a>
             </li>
           </ul>
           <div class="user-block">
@@ -48,6 +48,23 @@
           </div>
           <div class="toast-body bg-dark text-light">
             The length of the text must be longer than 10
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="settings" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-md-down">
+          <div class="modal-content bg-dark">
+            
+            <div class="modal-body">
+                <h1 class=" text-light">settings</h1>
+                <h4 class="text-light">Input your text for typing here:</h4>
+                <form>
+                  <textarea class="custom-input"></textarea>
+                </form>
+                <button class="btn btn-success text-right settings-confirm" onclick="settingsChecker()">Confirm</button>
+          
+            </div>
+            
           </div>
         </div>
       </div>
