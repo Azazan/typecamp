@@ -35,7 +35,7 @@ class Post(models.Model):
         ('published', 'Published'),
     )
     title = models.CharField(max_length=250)
-    slug = AutoSlugField(populate_from='title')
+    slug = AutoSlugField(populate_from='title', unique_with=['id'])
     author = models.ForeignKey(User, related_name='blog_posts', on_delete=models.CASCADE)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -43,6 +43,7 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     views = models.IntegerField(default=0)
+    photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
     
     class Meta:
         ordering = ('-publish',)
@@ -74,5 +75,13 @@ class History(models.Model):
         ordering = ('-test_date',)
     
     
+class Comment(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    text = models.TextField(max_length=300)
+    date = models.DateTimeField(auto_now=True)
 
+
+    class Meta:
+        ordering = ('-date',)
 # Create your models here.

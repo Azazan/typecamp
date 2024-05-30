@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from .models import Profile, SiteStatistics, Post, History
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from datetime import datetime
 
 
 def index(request):
@@ -226,6 +226,7 @@ def total_stats_detail(request):
 
 def blog_list(request):
     object_list = Post.objects.filter(status='published')
+    drafts = Post.objects.filter(status='draft', author=request.user).count()
     paginator = Paginator(object_list, 3)
     page = request.GET.get('page')
     try:
@@ -237,16 +238,131 @@ def blog_list(request):
     return render(request,
                   'blog_list.html',
                   {'page': page,
-                   'posts': posts})
+                   'posts': posts,
+                   'drafts':drafts
+                   })
 
 
 def post_detail(request, year, month, day, post):
 
     post = get_object_or_404(Post, slug=post,
-                                   status='published',
                                    publish__year=year,
                                    publish__month=month,
                                    publish__day=day)
     post.views += 1
     post.save()
-    return render(request,'post_detail.html', {'post': post})
+    new_comment = None
+    comments = post.comment_set.all()
+    if request.method == 'POST':
+        # A comment was posted
+        comment_form = SendComment(data=request.POST)
+        if comment_form.is_valid():
+            # Create Comment object but don't save to database yet          
+            new_comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            
+            new_comment.post = post
+            new_comment.user = request.user
+            # Save the comment to the database
+            new_comment.save()
+            return redirect('post_detail', year=year, month=month, day=day, post=post.slug)
+    else:
+        comment_form = SendComment()                   
+    return render(request,
+                  'post_detail.html',
+                  {'post': post,
+                   'comments': comments,
+                   'new_comment': new_comment,
+                   'comment_form': comment_form})
+
+def delete_comment(request, id):
+
+    comment = Comment.objects.get(id=id)
+    if request.user.is_staff or comment.user.pk == request.user.pk:
+        comment.delete()
+    
+    post = comment.post
+    return redirect('post_detail',
+                     year=post.publish.year,
+                     month=post.publish.strftime('%m'), 
+                     day=post.publish.strftime('%d'),
+                     post=post.slug
+                     )
+
+
+def write_post(request):
+    if request.method == 'POST':
+        
+        post_form = WritePostForm(data=request.POST, files=request.FILES)
+        if post_form.is_valid():       
+            new_post = post_form.save(commit=False)
+          
+            
+            new_post.author = request.user
+            new_post.status = 'draft'
+            new_post.save()
+           
+            return redirect('drafts')
+    else:
+        post_form = WritePostForm()                   
+    return render(request,
+                  'write_post.html',
+                  {'post_form': post_form})
+
+
+def drafts(request):
+    
+    object_list = Post.objects.filter(status='draft', author=request.user)
+    paginator = Paginator(object_list, 3)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render(request,
+                  'drafts.html',
+                  {'page': page,
+                   'posts': posts})
+
+@login_required
+def edit_post(request, id):
+    if request.method == 'POST':
+        post_form = EditPostForm(instance=Post.objects.get(id = id), data=request.POST, files=request.FILES)
+        if post_form.is_valid():       
+            new_post = post_form.save(commit=False)
+            new_post.status = 'draft'
+            new_post.updated = datetime.now()
+            new_post.save()
+           
+            return redirect('drafts')
+    else:
+        post_form = EditPostForm(instance=Post.objects.get(id = id))                   
+    return render(request,
+                    'edit_post.html',
+                    {'post_form': post_form})
+
+
+def delete_post(request, id):
+    post = Post.objects.get(id=id)
+    if request.user.is_staff or post.author.pk == request.user.pk:
+        post.delete()
+    
+    return redirect('drafts')
+
+def draft_post(request, id):
+    post = Post.objects.get(id=id)
+    if request.user.is_staff or post.author.pk == request.user.pk:
+        post = Post.objects.get(id=id)
+        post.status = 'draft'
+        post.save()
+    return redirect('blog_list')
+
+def public_post(request, id):
+    post = Post.objects.get(id=id)
+    if post.author.id == request.user.id:
+        post = Post.objects.get(id=id)
+        post.status = 'published'
+        post.save()
+    return redirect('drafts')

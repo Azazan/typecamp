@@ -16,6 +16,27 @@ body, html {
     
 }
 
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #7b7875;
+    border-radius: 6px;
+    border: 4px solid rgba(0,0,0,0);
+    background-clip: content-box;
+    min-width: 32px;
+    min-height: 32px;
+}
+
+*::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
 .label h3 span {
     color: #198754;
 }
@@ -576,10 +597,15 @@ body, html {
 
 .blog_list {
     margin-top: 100px;
+    width: 100%!important;
+}
+
+.post_detail {
+    margin-top: 100px;
 }
 
 .card-header {
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 2fr!important;
 }
 
 .post-small-details {
@@ -591,9 +617,98 @@ body, html {
     min-height: 100%;
 }
 
+
+
 .blog_list .card {
     margin: 30px 0!important;
+    width: 100%!important;
 }
+
+.comment-body {
+    grid-template-columns: 3fr 1fr!important;
+}
+
+.comment-text {
+    max-width: 600px; 
+    width: 100%!important;
+    word-break:break-word;
+    
+}
+
+.comments {
+    margin-top: 100px;
+}
+
+.post_detail form {
+    margin-bottom: 50px
+}
+
+.post_detail img {
+    max-width: 100%!important;
+    margin: 0 auto;
+
+}
+
+.post_detail form p {
+    padding: 0;
+    margin: 0;
+    height: 50px;
+}
+
+.post_detail form button {
+    height: 70px;
+    align-self: center;
+    border-radius: 0 5px 5px 0px;
+    
+}
+
+.post_detail form textarea {
+    height: 70px;
+    border-radius: 5px 0 0 5px;
+    width: 100%;
+}
+
+.post_detail .d-grid {
+    grid-template-columns: 4fr 1fr;
+}
+
+.delete-link {
+    
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transition: all .1s ease-in-out;
+    opacity: 0;
+}
+
+.comment {
+    position: relative;
+    
+    border-top: 1px solid #383838;
+    padding: 10px 0;
+}
+
+.comment:hover .delete-link {
+    
+    opacity: 1;
+}
+
+.write-post-block {
+    width: 100%!important;
+}
+
+.pagination {
+    margin: 20px 0;
+}
+
+.total_stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+
 
 
 @keyframes target_anim {
@@ -657,7 +772,7 @@ body, html {
 
 
 @media (max-width: 500px) {
-    .profile-block form p, .start-block form p {
+    .profile-block form p, .start-block form p, .total_stats  {
         grid-template-columns: 1fr;
     
     }
@@ -666,6 +781,8 @@ body, html {
         width: 15px!important;
         font-size: 14px;
     }
+
+    
 }
 
 

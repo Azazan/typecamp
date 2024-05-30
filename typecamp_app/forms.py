@@ -1,14 +1,43 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Comment, Post
 
 
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-#class UserRegistrationForm(forms.ModelForm):
+class SendComment(forms.ModelForm):
     
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        labels = {
+            "text": "",
+        }
+        widgets = {
+            "text": forms.Textarea(attrs={"placeholder":"Write a comment"}),
+        }
+        
+class WritePostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'body', 'photo')
+        widgets = {
+                    "title": forms.TextInput(attrs={"placeholder":"Write a title", "class":"w-50"}),
+                    "body": forms.Textarea(attrs={"placeholder":"Write a post", "class":"w-100"}),
+        }
+class EditPostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'body', 'photo')
+        widgets = {
+                    "title": forms.TextInput(attrs={"placeholder":"Write a title"}),
+                    "body": forms.Textarea(attrs={"placeholder":"Write a post", "class":"w-100"}),
+                }
+        
+
+
 class UserRegistrationForm(forms.Form,forms.ModelForm):
     username = forms.CharField()
     email = forms.CharField(label='email', widget=forms.EmailInput)

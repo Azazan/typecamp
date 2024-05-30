@@ -52,12 +52,12 @@
                 <h1 class="m-2 {% if profile.user.is_superuser %}text-danger{% else%}{% if profile.user.is_staff%}text-primary{% else %}text-light {% endif %}{% endif %}">{{ profile.user.username }}</h1>
                 {% if profile.user.is_superuser %}
                 <div class="profile-group border-1 border border-danger text-danger">
-                    superuser
+                    admin
                 </div>
                 {% else %}
                     {% if profile.user.is_staff %}
                     <div class="profile-group border-1 border border-primary text-primary ">
-                        admin
+                        moderator
                     </div>
                     
                     {% endif %}

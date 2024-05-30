@@ -53,15 +53,18 @@
 
 {% endblock header %}
 {%block content %}
-<div class="start-block">
+<div class="start-block text-center d-grid justify-content-center">
     <h1 class="text-light">Total statistics</h1>
-    <div class="profile-stats">
+    <div class="total_stats">
         <div><h4>Tests opened</h4><span class="text-success profile-stats-num">{{ total_stats.total_tests }}</span></div>
         <div><h4>Total time in test</h4><span class="text-success profile-stats-num">{{ total_stats.total_time }}</span>sec</div>
+    </div>
+    <div class="total_stats">
         <div><h4>Total words typed</h4><span class="text-success profile-stats-num">{{ total_stats.total_words }}</span></div>
         <div><h4>Total keys typed</h4><span class="text-success profile-stats-num">{{ total_stats.total_keys }}</span></div>
-        <div><h4>Total mistakes</h4><span class="text-success profile-stats-num">{{ total_stats.total_mistakes }}</span></div>
+        
     </div>
+    <div><h4>Total mistakes</h4><span class="text-success profile-stats-num">{{ total_stats.total_mistakes }}</span></div>
 </div>
 
 
@@ -70,5 +73,4 @@
 {% endblock content %}
 
 {% block scripts%}
-<script src="{% static "js/tutorial.js" %}"></script>
 {%endblock scripts%}

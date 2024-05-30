@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block header %}
-    <a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>blog</h3></a>
+    <a href="{% url 'blog_list'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>blog</h3></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,15 +11,7 @@
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'write_post' %}"><i class="bi bi-pen"></i>write a post</a>
             </li>
-            <li class="nav-item  position-relative">
-                <a class="nav-link" href="{% url 'drafts' %}">
-                    <i class="bi bi-pen"></i>my drafts
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {% if drafts == 0 %} 0 {% else %} {{drafts}}{% endif %}
-                    <span class="visually-hidden">unread messages</span>
-                  </span>
-                </a>
-            </li>
+            
             
             {% endif %}
 
@@ -49,6 +41,14 @@
 {%block content %}
 <div class="blog_list text-start">
 
+    
+    {% if posts|length == 0 %}
+    <div class="text-center w-100">
+        <p class="text-center">Have no drafts</p>
+        <a class="btn btn-success text-center" href="{% url 'write_post' %}">Write a post</a>
+
+    </div>
+    {% endif %}
     {% for post in posts %}
     <div class="card bg-dark text-light border-1 border border-light ">
         <div class="card-header d-grid">
@@ -63,14 +63,9 @@
           <h3 class="card-title">{{ post.title }}</h3>
           <p class="card-text">{{ post.body|truncatewords:30|linebreaks }}</p>
           <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read</a>
-          {% if user.pk == post.author.pk %}
-          <a href="{% url 'draft_post' id=post.pk %}" class="btn btn-warning">to draft</a>
-          
-          {% else %}
-          {% if user.is_staff %}
-          <a href="{% url 'draft_post' id=post.pk %}" class="btn btn-danger">remove</a>
-          {% endif %}
-          {% endif %}
+          <a href="{% url 'edit_post' id=post.pk %}" class="btn btn-warning">Edit</a>
+          <a href="{% url 'delete_post' id=post.pk %}" class="btn btn-danger">Delete</a>
+          <a href="{% url 'public_post' id=post.pk %}" class="btn btn-success">Public</a>
         </div>
     </div>
     {% endfor %}

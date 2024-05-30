@@ -23,4 +23,11 @@ urlpatterns = [
         r'(?P<post>[-\w]+)/$',
         post_detail,
         name='post_detail'),
+    re_path(r'^delete_comment/(?P<id>\d+)', delete_comment, name='delete_comment'),
+    re_path(r'^blog/write', write_post, name='write_post'),
+    re_path(r'^blog/drafts', drafts, name='drafts'),
+    re_path(r'^blog/edit_post/(?P<id>\d+)', edit_post, name='edit_post'),
+    re_path(r'^delete_post/(?P<id>\d+)', delete_post, name='delete_post'),
+    re_path(r'^public_post/(?P<id>\d+)', public_post, name='public_post'),
+    re_path(r'^draft_post/(?P<id>\d+)', draft_post, name='draft_post'),
 ]
