@@ -115,12 +115,13 @@
               </div>
             <h1 class=" text-light m-4">leaderboard</h1>
             <div class="border-1 border-light d-grid justify-content-center ">
-                {% for el in leaderboard_wpm %}
+                {% for el in leaderboard_game %}
                 
                 <div class="leaderboard-user">
                     <span class="text-light">#{{ forloop.counter }} </span>
-                    <a href="{% url 'user_detail' id=el.user.pk %}" class="text-light">{{ el.user.username }}</a>
-                    <span class="text-light">{{el.wpm}}</span>
+                    <a href="{% url 'user_detail' id=el.user.pk %}" class=" {% if el.user.is_superuser %}text-danger{% else%}{% if el.user.is_staff%}text-primary{% else %}text-light {% endif %}{% endif %}">{{ el.user.username }}</a>
+
+                    <span class="text-light">{{el.game_score}}</span>
                 </div>
 
                 {% endfor %}

@@ -13,10 +13,11 @@ from datetime import datetime
 
 def index(request):
     leaderboard_wpm = Profile.objects.all().order_by('-wpm')[0:20]
-
+    leaderboard_game = Profile.objects.all().order_by('-game_score')[0:20]
 
     return render(request, 'index.html', {
-        'leaderboard_wpm':leaderboard_wpm
+        'leaderboard_wpm':leaderboard_wpm,
+        'leaderboard_game':leaderboard_game
     })
 
 
@@ -39,6 +40,16 @@ def dict_load(request):
     print(received_data)
     received_data = open(str(pathlib.Path(__file__).resolve().parent.parent) + '/typecamp_app/static/data/' + received_data, 'r', encoding="utf-8").read()
     return JsonResponse({'recieved': json.loads(received_data) }) # Отсылаем обратно
+
+def game_stats_update(request):
+    recieved_data = json.loads(request.body)
+    if (request.user.is_authenticated):
+        user = request.user
+        profile_score = Profile.objects.get(user=user)
+        profile_score.game_score = recieved_data['score']
+        profile_score.save()
+    return JsonResponse({'recieved': 'good' })
+        
 
 def stats_update(request):
     recieved_data = json.loads(request.body)

@@ -18,7 +18,7 @@ class Profile(models.Model):
     keys = models.JSONField('keys', default=keys_default)
     wpm = models.IntegerField(default=0)
     total_stat = models.JSONField('total_stats', default=total_stat_default)
-    
+    game_score = models.IntegerField(default=0)
     def __str__(self):
         return 'Profile for user {}'.format(self.user.username)
 

@@ -9,6 +9,7 @@ urlpatterns = [
     re_path(r'^dict_load', dict_load, name='dict_load'),
     re_path(r'^stats_update', stats_update, name='stats_update'),
     re_path(r'^total_stats_update', total_stats_update, name='total_stats_update'),
+    re_path(r'^game_stats_update', game_stats_update, name='game_stats_update'),
     re_path(r'^game', game, name='game'),
     re_path(r'^custom', custom, name='custom'),
     re_path(r'^lessons', lessons, name='lessons'),

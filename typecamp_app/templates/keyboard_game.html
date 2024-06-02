@@ -1,224 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TYPECAMP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../style/bootstrap.min.css">
-    <link rel="stylesheet" href="../style/bootstrap-icons-1.10.5/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../style/style.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+{% extends "base.html" %}
 
-</head>
-<body class="bg-dark">
-<div class="container-fluid h-100">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark header">
-    <div class="container-fluid">
-      <a href="index.html" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>game</h3></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a href="#" class="tutorial nav-link"><i class="bi bi-keyboard-fill"></i>tutorial</a>
-          </li>
-
-        </ul>
-
-      </div>
-    </div>
-  </nav>
-  <div class="d-flex justify-content-center align-items-center h-100 flex-column">
-    <div class="tutorial-block d-none">
-      <h1 class="text-uppercase text-light">proper hand placement</h1>
-      <div class="keyboard text-left">
-        <div class="d-flex">
-          <div value="backquote" class="key tutorial-blue">`</div>
-          <div value="digit1" class="key tutorial-blue">1</div>
-          <div value="digit2" class="key tutorial-green">2</div>
-          <div value="digit3" class="key tutorial-light-green">3</div>
-          <div value="digit4" class="key tutorial-red">4</div>
-          <div value="digit5" class="key tutorial-red">5</div>
-          <div value="digit6" class="key tutorial-yellow">6</div>
-          <div value="digit7" class="key tutorial-yellow">7</div>
-          <div value="digit8" class="key tutorial-purple">8</div>
-          <div value="digit9" class="key tutorial-pink">9</div>
-          <div value="digit0" class="key tutorial-fiolet">0</div>
-          <div value="minus" class="key tutorial-fiolet">-</div>
-          <div value="equal" class="key tutorial-fiolet">=</div>
-          <div value="backspace" class="key backspace tutorial-fiolet"><-</div>
-        </div>
-        <div class="d-flex">
-          <div value="tab" class="key tab tutorial-blue">tab</div>
-          <div value="keyq" class="key tutorial-blue">q <p>й</p></div>
-          <div value="keyw" class="key tutorial-green">w <p>ц</p></div>
-          <div value="keye" class="key tutorial-light-green">e <p>у</p></div>
-          <div value="keyr" class="key tutorial-red">r <p>к</p></div>
-          <div value="keyt" class="key tutorial-red">t <p>е</p></div>
-          <div value="keyy" class="key tutorial-yellow">y <p>н</p></div>
-          <div value="keyu" class="key tutorial-yellow">u <p>г</p></div>
-          <div value="keyi" class="key tutorial-purple">i <p>ш</p></div>
-          <div value="keyo" class="key tutorial-pink">o <p>щ</p></div>
-          <div value="keyp" class="key tutorial-fiolet">p <p>з</p></div>
-          <div value="bracketleft" class="key tutorial-fiolet">[ <p>х</p></div>
-          <div value="bracketright" class="key tutorial-fiolet">] <p>ъ</p></div>
-          <div value="backslash" class="key tab tutorial-fiolet">\</div>
-        </div>
-        <div class="d-flex">
-          <div value="capslock" class="key backspace tutorial-blue">caps</div>
-          <div value="keya" class="key tutorial-blue">a <p>ф</p></div>
-          <div value="keys" class="key tutorial-green">s <p>ы</p></div>
-          <div value="keyd" class="key tutorial-light-green">d <p>в</p></div>
-          <div value="keyf" class="key tutorial-red">f <p>а</p></div>
-          <div value="keyg" class="key tutorial-red">g <p>п</p></div>
-          <div value="keyh" class="key tutorial-yellow">h <p>р</p></div>
-          <div value="keyj" class="key tutorial-yellow">j <p>о</p></div>
-          <div value="keyk" class="key tutorial-purple">k <p>л</p></div>
-          <div value="keyl" class="key tutorial-pink">l <p>д</p></div>
-          <div value="semicolon" class="key tutorial-fiolet">; <p>ж</p></div>
-          <div value="quote" class="key tutorial-fiolet">' <p>э</p></div>
-          <div value="enter" class="key enter tutorial-fiolet">enter</div>
-        </div>
-        <div class="d-flex">
-          <div value="shiftleft" class="key shift tutorial-blue">shift</div>
-          <div value="keyz" class="key tutorial-blue">z <p>я</p></div>
-          <div value="keyx" class="key tutorial-green">x <p>ч</p></div>
-          <div value="keyc" class="key tutorial-light-green">c <p>с</p></div>
-          <div value="keyv" class="key tutorial-red">v <p>м</p></div>
-          <div value="keyb" class="key tutorial-red">b <p>и</p></div>
-          <div value="keyn" class="key tutorial-yellow">n <p>т</p></div>
-          <div value="keym" class="key tutorial-yellow">m <p>ь</p></div>
-          <div value="comma" class="key tutorial-purple">, <p>б</p></div>
-          <div value="period" class="key tutorial-pink">. <p>ю</p></div>
-          <div value="slash" class="key tutorial-fiolet">/</div>
-          <div value="shiftright" class="key shift tutorial-fiolet">shift</div>
-        </div>
-        <div class="d-flex">
-          <div value="controlleft" class="key ctrl tutorial-blue">ctrl</div>
-          <div value="" class="key ctrl tutorial-blue">win</div>
-          <div value="altleft" class="key ctrl tutorial-blue">alt</div>
-          <div value="space" class="key space active-key bg-light">space</div>
-          <div value="altright" class="key ctrl tutorial-fiolet">alt</div>
-          <div value="option" class="key ctrl tutorial-fiolet">option</div>
-          <div value="" class="key ctrl tutorial-fiolet">fn</div>
-          <div value="controlright" class="key ctrl tutorial-fiolet">ctrl</div>
-
-        </div>
-      </div>
-    </div>
-    <div class="start-block text-center">
-      <h1 class="text-light">Train your keyboard skills</h1>
-      <h4 class="text-light text-uppercase">MAX SCORE: <span class="max-score text-success"></span></h4>
-      <p>Press Ctrl+Enter to start</p>
-    </div>
-    <div class="stats-block d-none text-center">
-      <h1 class="text-light">Your score <span id="final_score" class="text-success"></span></h1>
-      <h4 class="text-light text-uppercase">MAX SCORE: <span class="max-score text-success"></span></h4>
-      <p>Press Ctrl+Enter to restart</p>
-    </div>
-    <div class="game-block d-none">
-      <div class="current-stats w-100 d-flex justify-content-between">
-        <div>
-          <h3 class="">SCORE <span id="score" class="text-success">0</span></h3>
-          <!--<h3 class="">lost keys <span id="lost">0</span></h3> -->
-          <h3 class="">LIVES <span id="lives" class="text-success">5</span></h3>
-        </div>
-        <div>
-          <h3 class="">TIME <span id="time" class="text-success">0</span> sec</h3>
-
-        </div>
-
+{% load static%}
+{% block header %}
+<a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>test</h3></a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a href="#" class="tutorial nav-link" value="0" data-bs-toggle="modal" data-bs-target="#tutorial"><i class="bi bi-keyboard-fill"></i>tutorial</a>
+        </li>
         
-      </div>
-      <div class="keyboard text-left">
-        <div class="d-flex">
-          <div value="backquote" class="key">`</div>
-          <div value="digit1" class="key">1</div>
-          <div value="digit2" class="key">2</div>
-          <div value="digit3" class="key">3</div>
-          <div value="digit4" class="key">4</div>
-          <div value="digit5" class="key">5</div>
-          <div value="digit6" class="key">6</div>
-          <div value="digit7" class="key">7</div>
-          <div value="digit8" class="key">8</div>
-          <div value="digit9" class="key">9</div>
-          <div value="digit0" class="key">0</div>
-          <div value="minus" class="key">-</div>
-          <div value="equal" class="key">=</div>
-          <div value="backspace" class="key backspace"><-</div>
-        </div>
-        <div class="d-flex">
-          <div value="tab" class="key tab">tab</div>
-          <div value="keyq" class="key">q <p>й</p></div>
-          <div value="keyw" class="key">w <p>ц</p></div>
-          <div value="keye" class="key">e <p>у</p></div>
-          <div value="keyr" class="key">r <p>к</p></div>
-          <div value="keyt" class="key">t <p>е</p></div>
-          <div value="keyy" class="key">y <p>н</p></div>
-          <div value="keyu" class="key">u <p>г</p></div>
-          <div value="keyi" class="key">i <p>ш</p></div>
-          <div value="keyo" class="key">o <p>щ</p></div>
-          <div value="keyp" class="key">p <p>з</p></div>
-          <div value="bracketleft" class="key">[ <p>х</p></div>
-          <div value="bracketright" class="key">] <p>ъ</p></div>
-          <div value="backslash" class="key tab">\</div>
-        </div>
-        <div class="d-flex">
-          <div value="capslock" class="key backspace">caps</div>
-          <div value="keya" class="key">a <p>ф</p></div>
-          <div value="keys" class="key">s <p>ы</p></div>
-          <div value="keyd" class="key">d <p>в</p></div>
-          <div value="keyf" class="key">f <p>а</p></div>
-          <div value="keyg" class="key">g <p>п</p></div>
-          <div value="keyh" class="key">h <p>р</p></div>
-          <div value="keyj" class="key">j <p>о</p></div>
-          <div value="keyk" class="key">k <p>л</p></div>
-          <div value="keyl" class="key">l <p>д</p></div>
-          <div value="semicolon" class="key">; <p>ж</p></div>
-          <div value="quote" class="key">' <p>э</p></div>
-          <div value="enter" class="key enter">enter</div>
-        </div>
-        <div class="d-flex">
-          <div value="shiftleft" class="key shift">shift</div>
-          <div value="keyz" class="key">z <p>я</p></div>
-          <div value="keyx" class="key">x <p>ч</p></div>
-          <div value="keyc" class="key">c <p>с</p></div>
-          <div value="keyv" class="key">v <p>м</p></div>
-          <div value="keyb" class="key">b <p>и</p></div>
-          <div value="keyn" class="key">n <p>т</p></div>
-          <div value="keym" class="key">m <p>ь</p></div>
-          <div value="comma" class="key">, <p>б</p></div>
-          <div value="period" class="key">. <p>ю</p></div>
-          <div value="slash" class="key">/</div>
-          <div value="shiftright" class="key shift">shift</div>
-        </div>
-        <div class="d-flex">
-          <div value="controlleft" class="key ctrl">ctrl</div>
-          <div value="" class="key ctrl">win</div>
-          <div value="altleft" class="key ctrl">alt</div>
-          <div value="space" class="key space">space</div>
-          <div value="altright" class="key ctrl">alt</div>
-          <div value="option" class="key ctrl">option</div>
-          <div value="" class="key ctrl">fn</div>
-          <div value="controlright" class="key ctrl">ctrl</div>
 
-        </div>
-      </div>
+    </ul>
+    <div class="user-block">
+        {% if user.is_authenticated %}
+            <a href="{% url 'user_detail' user.pk %}" class="navbar-text m-2 text-light">{{ user.get_username }}</a>
+            /
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="navbar-text m-2 text-danger btn-link">logout</button>
+           </form>
+            
+        {% else %}
+        
+            <a href="{% url 'login' %}" class="navbar-text m-2 text-light">login</a> /
+            <a href="{% url 'register' %}" class="navbar-text m-2 text-light">register</a>
 
-
+            
+        {% endif %}
+        
     </div>
 
-
-  </div>
 </div>
 
+{% endblock header %}
 
-<script src="../js/keyboard_game.js"></script>
-<script src="../js/tutorial.js"></script>
-<script src="../js/bootstrap.min.js"></script>
+{% block content%}
+<div class="start-block" value="test">
+  <h1 class="text-light">Train your keyboard skills</h1>
+  <p>Press Ctrl+Enter to start</p>
+    <button class="btn btn-success btn-start" onclick="gameStarter()" value='test'>start</button>
+</div>
 
-</body>
-</html>
+<div class="game-block d-none">
+    
+  <div class="current-stats w-100 d-flex justify-content-between">
+    <div>
+      <h3 class="text-uppercase">score <span id="score" class="text-success">0</span></h3>
+      <!--<h3 class="">lost keys <span id="lost">0</span></h3> -->
+      <h3 class="text-uppercase">lives <span id="lives" class="text-success">10</span></h3>
+    </div>
+    <div>
+      <h3 class="text-uppercase">time <span id="time" class="text-success">0</span></h3>
+
+    </div>
+
+    
+  </div>
+  <div class="keyboard text-left">
+    <div class="d-flex">
+      <div value="backquote" class="key">`</div>
+      <div value="digit1" class="key">1</div>
+      <div value="digit2" class="key">2</div>
+      <div value="digit3" class="key">3</div>
+      <div value="digit4" class="key">4</div>
+      <div value="digit5" class="key">5</div>
+      <div value="digit6" class="key">6</div>
+      <div value="digit7" class="key">7</div>
+      <div value="digit8" class="key">8</div>
+      <div value="digit9" class="key">9</div>
+      <div value="digit0" class="key">0</div>
+      <div value="minus" class="key">-</div>
+      <div value="equal" class="key">=</div>
+      <div value="backspace" class="key backspace"><-</div>
+    </div>
+    <div class="d-flex">
+      <div value="tab" class="key tab">tab</div>
+      <div value="keyq" class="key">q <p>й</p></div>
+      <div value="keyw" class="key">w <p>ц</p></div>
+      <div value="keye" class="key">e <p>у</p></div>
+      <div value="keyr" class="key">r <p>к</p></div>
+      <div value="keyt" class="key">t <p>е</p></div>
+      <div value="keyy" class="key">y <p>н</p></div>
+      <div value="keyu" class="key">u <p>г</p></div>
+      <div value="keyi" class="key">i <p>ш</p></div>
+      <div value="keyo" class="key">o <p>щ</p></div>
+      <div value="keyp" class="key">p <p>з</p></div>
+      <div value="bracketleft" class="key">[ <p>х</p></div>
+      <div value="bracketright" class="key">] <p>ъ</p></div>
+      <div value="backslash" class="key tab">\</div>
+    </div>
+    <div class="d-flex">
+      <div value="capslock" class="key backspace">caps</div>
+      <div value="keya" class="key">a <p>ф</p></div>
+      <div value="keys" class="key">s <p>ы</p></div>
+      <div value="keyd" class="key">d <p>в</p></div>
+      <div value="keyf" class="key">f <p>а</p></div>
+      <div value="keyg" class="key">g <p>п</p></div>
+      <div value="keyh" class="key">h <p>р</p></div>
+      <div value="keyj" class="key">j <p>о</p></div>
+      <div value="keyk" class="key">k <p>л</p></div>
+      <div value="keyl" class="key">l <p>д</p></div>
+      <div value="semicolon" class="key">; <p>ж</p></div>
+      <div value="quote" class="key">' <p>э</p></div>
+      <div value="enter" class="key enter">enter</div>
+    </div>
+    <div class="d-flex">
+      <div value="shiftleft" class="key shift">shift</div>
+      <div value="keyz" class="key">z <p>я</p></div>
+      <div value="keyx" class="key">x <p>ч</p></div>
+      <div value="keyc" class="key">c <p>с</p></div>
+      <div value="keyv" class="key">v <p>м</p></div>
+      <div value="keyb" class="key">b <p>и</p></div>
+      <div value="keyn" class="key">n <p>т</p></div>
+      <div value="keym" class="key">m <p>ь</p></div>
+      <div value="comma" class="key">, <p>б</p></div>
+      <div value="period" class="key">. <p>ю</p></div>
+      <div value="slash" class="key">/</div>
+      <div value="shiftright" class="key shift">shift</div>
+    </div>
+    <div class="d-flex">
+      <div value="controlleft" class="key ctrl">ctrl</div>
+      <div value="" class="key ctrl">win</div>
+      <div value="altleft" class="key ctrl">alt</div>
+      <div value="space" class="key space">space</div>
+      <div value="altright" class="key ctrl">alt</div>
+      <div value="option" class="key ctrl">option</div>
+      <div value="" class="key ctrl">fn</div>
+      <div value="controlright" class="key ctrl">ctrl</div>
+
+    </div>
+  </div>
+</div>
+<div class="stats-block d-none">
+    <h1 class="text-uppercase text-light">game over!</h1>
+
+    <div class="curr-score d-flex">
+        <h1>Your score <span id="final_score" class="text-success"></span></h1>
+      
+    </div>
+    <p>Press Ctrl+Enter to restart</p>
+</div>
+</div>
+
+{% endblock content %}
+
+
+
+
+  
+
+{% block scripts %}
+<script>
+    var csrf = "{{ csrf_token }}";
+</script>
+
+<script src="{% static "js/tutorial.js" %}"></script>
+<script src="{% static "js/game.js" %}"></script>
+{% endblock scripts%}

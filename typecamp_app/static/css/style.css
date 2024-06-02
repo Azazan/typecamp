@@ -329,12 +329,12 @@ body, html {
 .target-key {
     background-color: #F45050;
     color: #F0F0F0;
-    animation: 8000ms target_anim ease-in-out;
+    animation: 6000ms target_anim ease-in-out;
 }
 
 .target-key p {
     color: #F0F0F0;
-    animation: 8000ms target_anim ease-in-out;
+    animation: 6000ms target_anim ease-in-out;
 }
 
 .btn-link {
