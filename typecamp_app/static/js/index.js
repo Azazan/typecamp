@@ -32,7 +32,6 @@ function valSwapper(el) {
 
 }
 var total_right_moving_flag = true;
-var total_left_moving_flag = false;
 function cursorMoving(cnt) {
     console.log('vis')
     if ($(`.letter[value=${cnt}]`).length) {
@@ -109,7 +108,7 @@ function inputChecker(task) {
     }
     // Допущена ошибка
     else {
-        if (total_right_moving_flag) {
+        if (total_right_moving_flag) { // Если в строке есть неправильный символ, то строка переведена не будет
             test_mistakes++
             $(`.letter[value=${input.length + total_deleted-1}]`).addClass('incorrect-letter')
             test_keys[keys_var[$(`.letter[value=${input.length + total_deleted-1}]`).html().toLowerCase()]] += 1

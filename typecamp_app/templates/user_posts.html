@@ -2,7 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% block header %}
-    <a href="{% url 'blog_list'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>blog</h3></a>
+    <a href="{% url 'home'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>blog</h3></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,7 +12,15 @@
             <li class="nav-item ">
                 <a class="nav-link" href="{% url 'write_post' %}"><i class="bi bi-pen"></i>write a post</a>
             </li>
-            
+            <li class="nav-item  position-relative">
+                <a class="nav-link" href="{% url 'drafts' %}">
+                    <i class="bi bi-pen"></i>my drafts
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {% if drafts == 0 %} 0 {% else %} {{drafts}}{% endif %}
+                    <span class="visually-hidden">drafts</span>
+                  </span>
+                </a>
+            </li>
             
             {% endif %}
 
@@ -41,14 +49,9 @@
 {% endblock header %}
 {%block content %}
 <div class="blog_list text-start">
-
-    
-    {% if posts|length == 0 %}
-    <div class="text-center w-100">
-        <p class="text-center">Have no drafts</p>
-        <a class="btn btn-success text-center" href="{% url 'write_post' %}">Write a post</a>
-
-    </div>
+    <h2 class="text-light ">Posts of {{user}}</h2>
+    {%if posts|length == 0 %}
+    <h3>No posts yet</h3>
     {% endif %}
     {% for post in posts %}
     <div class="card bg-dark text-light border-1 border border-light ">
@@ -56,7 +59,7 @@
           <a href="{% url 'user_detail' id=post.author.pk%}" class="m-2 {% if post.author.is_superuser %}text-danger{% else%}{% if post.author.is_staff%}text-primary{% else %}text-light {% endif %}{% endif %}">{{ post.author }}</a>
           <div class="post-small-details d-flex">
             <p class="m-2"><i class="bi bi-eye m-1"></i>{{post.views}}</p>
-            <p class="m-2"><i class="bi bi-calendar-event-fill m-1"></i>{{post.created|naturaltime}} </p>
+            <p class="m-2"><i class="bi bi-calendar-event-fill m-1"></i>{{post.publish|naturaltime}} </p>
             
           </div>
         </div>
@@ -64,9 +67,14 @@
           <h3 class="card-title">{{ post.title }}</h3>
           <p class="card-text">{{ post.body|truncatewords:30|linebreaks }}</p>
           <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read</a>
-          <a href="{% url 'edit_post' id=post.pk %}" class="btn btn-warning">Edit</a>
-          <a href="{% url 'delete_post' id=post.pk %}" class="btn btn-danger">Delete</a>
-          <a href="{% url 'public_post' id=post.pk %}" class="btn btn-success">Public</a>
+          {% if user.pk == post.author.pk %}
+          <a href="{% url 'draft_post' id=post.pk %}" class="btn btn-warning">to draft</a>
+          
+          {% else %}
+          {% if user.is_staff %}
+          <a href="{% url 'draft_post' id=post.pk %}" class="btn btn-danger">remove</a>
+          {% endif %}
+          {% endif %}
         </div>
     </div>
     {% endfor %}

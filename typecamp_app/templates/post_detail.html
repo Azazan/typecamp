@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load humanize %}
 {% block header %}
     <a href="{% url 'blog_list'%}" class="text-decoration-none text-light navbar-brand label"><h3><span>type</span>blog</h3></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +46,7 @@
             <a href="{% url 'user_detail' id=post.author.pk%}" class="m-2 {% if post.author.is_superuser %}text-danger{% else%}{% if post.author.is_staff%}text-primary{% else %}text-light {% endif %}{% endif %}">{{ post.author }}</a>
             <div class="post-small-details d-flex">
               <p class="m-2"><i class="bi bi-eye m-1"></i>{{post.views}}</p>
-              <p class="m-2"><i class="bi bi-calendar-event-fill m-1"></i>{{post.publish}} </p>
+              <p class="m-2"><i class="bi bi-calendar-event-fill m-1"></i>{{post.publish|naturaltime}} </p>
               
             </div>
           </div>
@@ -80,7 +81,7 @@
                     <div class="comment-body d-grid">
                         <p class="comment-text">{{comment.text}}</p>
                         <div>
-                            <p>{{comment.date}}</p>
+                            <p><i class="bi bi-clock m-2"></i>{{comment.date|naturaltime}}</p>
                             {% if user.is_staff or user.pk == comment.user.pk %}
                             <a href="{% url 'delete_comment' id=comment.pk %}" class="delete-link text-danger"><i class="bi bi-trash3 text-danger"></i></a>
                             {% endif %}

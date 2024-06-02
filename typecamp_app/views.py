@@ -226,7 +226,12 @@ def total_stats_detail(request):
 
 def blog_list(request):
     object_list = Post.objects.filter(status='published')
-    drafts = Post.objects.filter(status='draft', author=request.user).count()
+    if request.user.is_authenticated:
+        drafts = Post.objects.filter(status='draft', author=request.user).count()
+
+    else:
+        drafts = 0
+    
     paginator = Paginator(object_list, 3)
     page = request.GET.get('page')
     try:
@@ -364,5 +369,25 @@ def public_post(request, id):
     if post.author.id == request.user.id:
         post = Post.objects.get(id=id)
         post.status = 'published'
+        post.publish = datetime.now()
         post.save()
     return redirect('drafts')
+
+def user_posts(request, id):
+    if request.user.is_authenticated:
+        drafts = Post.objects.filter(status='draft', author=request.user).count()
+
+    else:
+        drafts = 0
+    user = User.objects.get(id=id)
+    object_list = Post.objects.filter(author=user, status='published')
+    paginator = Paginator(object_list, 3)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request, 'user_posts.html', {'posts':posts, 'drafts':drafts, 'user':user.username})
