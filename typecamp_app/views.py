@@ -46,7 +46,8 @@ def game_stats_update(request):
     if (request.user.is_authenticated):
         user = request.user
         profile_score = Profile.objects.get(user=user)
-        profile_score.game_score = recieved_data['score']
+        if profile_score.game_score < recieved_data['score']:
+            profile_score.game_score = recieved_data['score']
         profile_score.save()
     return JsonResponse({'recieved': 'good' })
         

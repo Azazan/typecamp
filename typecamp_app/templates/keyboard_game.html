@@ -137,9 +137,11 @@
 <div class="stats-block d-none">
     <h1 class="text-uppercase text-light">game over!</h1>
 
-    <div class="curr-score d-flex">
-        <h1>Your score <span id="final_score" class="text-success"></span></h1>
-      
+    <div class="curr-score">
+        <h1 class="m-2">Your score <span id="final_score" class="text-success"></span></h1>
+        {% if user.is_authenticated %}
+        <h1 class="m-2">Max score <span class="text-success">{{user.profile.game_score}}</span></h1>
+        {% endif %}
     </div>
     <p>Press Ctrl+Enter to restart</p>
 </div>
